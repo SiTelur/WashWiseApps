@@ -4,6 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SplashscreenActivity">
+    tools:context=".SplashscreenActivity"
+    android:background="#C9F2FF">
+
+
+    <View
+        android:id="@+id/logo"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/logo"
+        tools:layout_editor_absoluteX="5dp"
+        tools:layout_editor_absoluteY="165dp"
+        tools:ignore="MissingConstraints" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
