@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">WashWiseOlivia</string>
+    <string name="belummemilikiakun">Belum memiliki akun ?</string>
+    <string name="register">Register</string>
+    <string name="masuk">Masuk</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="login">Login</string>
 </resources>

@@ -44,14 +44,14 @@
                     android:id="@+id/textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Belum memiliki akun ?" />
+                    android:text="@string/belummemilikiakun" />
 
                 <TextView
                     android:id="@+id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="6dp"
-                    android:text="Register"
+                    android:text="@string/register"
                     android:textColor="@color/navy" />
             </LinearLayout>
 
@@ -62,7 +62,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:fontFamily="@font/poppins_medium"
-                android:text="Login"
+                android:text="@string/login"
                 android:textSize="25sp" />
 
             <TextView
@@ -74,7 +74,7 @@
                 android:layout_alignParentLeft="false"
                 android:layout_marginTop="27dp"
                 android:fontFamily="@font/poppins_medium"
-                android:text="Email"
+                android:text="@string/email"
                 android:textSize="20sp" />
 
             <EditText
@@ -86,7 +86,7 @@
                 android:layout_marginTop="11dp"
                 android:ems="10"
                 android:fontFamily="@font/poppins_medium"
-                android:hint="Email"
+                android:hint="@string/email"
                 android:inputType="text" />
 
             <TextView
@@ -100,7 +100,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="11dp"
                 android:fontFamily="@font/poppins_medium"
-                android:text="Password"
+                android:text="@string/password"
                 android:textSize="20sp" />
 
             <EditText
@@ -114,7 +114,7 @@
                 android:layout_marginTop="15dp"
                 android:ems="10"
                 android:fontFamily="@font/poppins_medium"
-                android:hint="Password"
+                android:hint="@string/password"
                 android:inputType="text" />
 
             <Button
@@ -123,7 +123,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/editTextText3"
                 android:layout_marginTop="11dp"
-                android:text="Masuk" />
+                android:text="@string/masuk" />
 
         </RelativeLayout>
 
