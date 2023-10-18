@@ -8,15 +8,17 @@
     android:background="#C9F2FF">
 
 
-    <View
+    <ImageView
         android:id="@+id/logo"
         android:layout_width="400dp"
         android:layout_height="400dp"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:background="@drawable/logo"
-        tools:layout_editor_absoluteX="5dp"
-        tools:layout_editor_absoluteY="165dp"
+        android:contentDescription="logo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
 
