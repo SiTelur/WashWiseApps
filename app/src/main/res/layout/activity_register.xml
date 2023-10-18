@@ -15,18 +15,18 @@
         android:layout_alignParentEnd="true"
         app:srcCompat="@drawable/logo" />
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/rectangle_5"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/imageView2"
         android:layout_alignParentLeft="true"
-        android:layout_marginBottom="-32dp"
-        app:cardCornerRadius="30dp">
+        app:cardCornerRadius="8dp"
+        app:cardElevation="20dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:padding="16dp">
 
@@ -51,7 +51,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="6dp"
-                    android:text="@string/register"
+                    android:text="@string/login"
                     android:textColor="@color/navy" />
             </LinearLayout>
 
@@ -62,56 +62,58 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:fontFamily="@font/poppins_medium"
-                android:text="@string/login"
-                android:textSize="25sp" />
-
-            <TextView
-                android:id="@+id/username"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/register"
-                android:layout_alignStart="@+id/register"
-                android:layout_alignParentLeft="false"
-                android:layout_marginTop="27dp"
-                android:fontFamily="@font/poppins_medium"
-                android:text="@string/email"
-                android:textSize="20sp" />
+                android:text="@string/register"
+                android:textColor="@color/navy"
+                android:textSize="25sp"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/editTextText"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_below="@+id/username"
+                android:layout_below="@+id/register"
                 android:layout_alignStart="@+id/username"
-                android:layout_marginTop="11dp"
                 android:ems="10"
                 android:fontFamily="@font/poppins_medium"
-                android:hint="@string/email"
+                android:hint="Nama"
                 android:inputType="text" />
-
-            <TextView
-                android:id="@+id/password"
-                android:layout_width="169dp"
-                android:layout_height="29dp"
-                android:layout_below="@+id/editTextText"
-                android:layout_alignStart="@+id/editTextText"
-                android:layout_alignParentLeft="true"
-                android:layout_marginStart="0dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="11dp"
-                android:fontFamily="@font/poppins_medium"
-                android:text="@string/password"
-                android:textSize="20sp" />
 
             <EditText
                 android:id="@+id/editTextText3"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_below="@+id/password"
+                android:layout_below="@+id/editTextText"
                 android:layout_alignStart="@+id/password"
                 android:layout_alignEnd="@+id/editTextText"
-                android:layout_marginStart="-1dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="8dp"
+                android:ems="10"
+                android:fontFamily="@font/poppins_medium"
+                android:hint="Nomor Telepon"
+                android:inputType="text"
+                android:textColor="@color/navy" />
+
+            <EditText
+                android:id="@+id/editTextText5"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/editTextText3"
+                android:layout_alignStart="@+id/editTextText3"
+                android:layout_alignEnd="@+id/editTextText"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="8dp"
+                android:ems="10"
+                android:fontFamily="@font/poppins_medium"
+                android:hint="@string/email"
+                android:inputType="text" />
+
+            <EditText
+                android:id="@+id/editTextText6"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/editTextText5"
+                android:layout_alignStart="@+id/editTextText5"
+                android:layout_alignEnd="@+id/editTextText"
+                android:layout_marginTop="12dp"
                 android:ems="10"
                 android:fontFamily="@font/poppins_medium"
                 android:hint="@string/password"
@@ -121,8 +123,8 @@
                 android:id="@+id/btn_Masuk"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/editTextText3"
-                android:layout_marginTop="11dp"
+                android:layout_below="@+id/editTextText6"
+                android:layout_marginTop="20dp"
                 android:text="@string/masuk" />
 
         </RelativeLayout>
@@ -134,7 +136,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
 
 </RelativeLayout>
