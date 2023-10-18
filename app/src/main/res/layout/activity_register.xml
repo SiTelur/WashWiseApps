@@ -20,8 +20,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/imageView2"
-        android:layout_alignParentLeft="true"
-        app:cardCornerRadius="8dp"
+        android:layout_alignParentStart="true"
+        style="@style/CustomCardViewStyle"
         app:cardElevation="20dp">
 
         <RelativeLayout
@@ -59,7 +59,7 @@
                 android:id="@+id/register"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:fontFamily="@font/poppins_medium"
                 android:text="@string/register"
@@ -72,25 +72,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_below="@+id/register"
-                android:layout_alignStart="@+id/username"
+                android:layout_alignStart="@+id/register"
+                android:layout_marginStart="0dp"
                 android:ems="10"
                 android:fontFamily="@font/poppins_medium"
-                android:hint="Nama"
-                android:inputType="text" />
+                android:hint="@string/nama"
+                android:inputType="text"
+                android:autofillHints="" />
 
             <EditText
                 android:id="@+id/editTextText3"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_below="@+id/editTextText"
-                android:layout_alignStart="@+id/password"
+                android:layout_alignStart="@+id/editTextText"
                 android:layout_alignEnd="@+id/editTextText"
+                android:layout_marginStart="0dp"
                 android:layout_marginTop="8dp"
                 android:ems="10"
                 android:fontFamily="@font/poppins_medium"
-                android:hint="Nomor Telepon"
+                android:hint="@string/nomor_telepon"
                 android:inputType="text"
-                android:textColor="@color/navy" />
+                android:textColor="@color/navy"
+                android:autofillHints="" />
 
             <EditText
                 android:id="@+id/editTextText5"
@@ -104,7 +108,8 @@
                 android:ems="10"
                 android:fontFamily="@font/poppins_medium"
                 android:hint="@string/email"
-                android:inputType="text" />
+                android:inputType="text"
+                android:autofillHints="" />
 
             <EditText
                 android:id="@+id/editTextText6"
@@ -117,7 +122,8 @@
                 android:ems="10"
                 android:fontFamily="@font/poppins_medium"
                 android:hint="@string/password"
-                android:inputType="text" />
+                android:inputType="text"
+                android:autofillHints="" />
 
             <Button
                 android:id="@+id/btn_Masuk"

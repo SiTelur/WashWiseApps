@@ -28,14 +28,17 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="CustomCardCorners" parent="@style/Widget.MaterialComponents.CardView">
-        <item name="shapeAppearanceOverlay">@style/ShapeAppearance_custom_corners</item>
+    <style name="CustomCardViewStyle" parent="@style/Widget.MaterialComponents.CardView">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay_card_custom_corners</item>
     </style>
 
-    <style name="ShapeAppearance_custom_corners" parent="">
+
+    <style name="ShapeAppearanceOverlay_card_custom_corners" parent="">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSizeTopLeft">32dp</item>
-        <item name="cornerSizeTopRight">32dp</item>
+        <item name="cornerSizeTopRight">30dp</item>
+        <item name="cornerSizeTopLeft">30dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
     </style>
 
 
