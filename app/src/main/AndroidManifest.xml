@@ -13,9 +13,13 @@
         android:theme="@style/Theme.WashWiseOlivia"
         tools:targetApi="31">
         <activity
-            android:name=".RegisterActivity"
+            android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/Theme.WashWiseOliviaNoActionBar"/>
+        <activity
+            android:name=".RegisterActivity"
+            android:exported="true"
+            android:theme="@style/Theme.WashWiseOliviaNoActionBar" />
         <activity
             android:name=".LoginActivity"
             android:exported="false"
