@@ -33,7 +33,8 @@ class MainActivity : AppCompatActivity() {
                 binding.fL.currentItem = 3
                 return@OnItemSelectedListener true
             }
-            else -> 0
+            else -> {binding.fL.currentItem = 0
+                return@OnItemSelectedListener true}
         }
         false
     }
