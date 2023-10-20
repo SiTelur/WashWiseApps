@@ -18,4 +18,7 @@
     <string name="pesanan_aktif">Pesanan Aktif</string>
     <string name="kalkulator">Kalkulator</string>
     <string name="voucher">Voucher</string>
+    <string name="berat">Berat</string>
+    <string name="jenis">Jenis</string>
+    <string name="total">Total</string>
 </resources>

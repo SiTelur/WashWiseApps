@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".KalkulatorActivity">
+
+    <ImageView
+        android:id="@+id/imageView10"
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:contentDescription="@string/app_name"
+        android:scaleType="center"
+        android:src="@drawable/pictures" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imageView10"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="50dp"
+        android:fontFamily="@font/poppins_semibold"
+        android:text="@string/kalkulator"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView9"
+        android:layout_alignStart="@+id/textView9"
+        android:layout_marginTop="60dp"
+        android:fontFamily="@font/poppins_medium"
+        android:text="@string/berat"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cvLayanan"
+        android:layout_alignStart="@+id/textView9"
+        android:layout_marginTop="30dp"
+        android:fontFamily="@font/poppins_medium"
+        android:text="Total"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cvBeratKalkulator"
+        android:layout_alignStart="@+id/textView9"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="30dp"
+        android:fontFamily="@font/poppins_medium"
+        android:text="@string/jenis"
+        android:textSize="18sp" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvBeratKalkulator"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_below="@id/textView11"
+        android:layout_alignStart="@+id/textView11"
+        android:layout_marginEnd="35dp"
+        app:cardCornerRadius="18dp"
+        app:cardElevation="18dp">
+
+        <EditText
+            android:id="@+id/editTextText4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="16dp"
+            android:autofillHints=""
+            android:background="#00FFFFFF"
+            android:ems="10"
+            android:hint="@string/berat"
+            android:inputType="text" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvLayanan"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_below="@id/textView12"
+        android:layout_alignStart="@+id/textView11"
+        android:layout_marginEnd="35dp"
+        app:cardCornerRadius="18dp"
+        app:cardElevation="18dp">
+
+        <Spinner
+            android:id="@+id/editTextText5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="16dp"
+            android:autofillHints=""
+            android:background="#00FFFFFF" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvJumlah"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_below="@+id/textView13"
+        android:layout_alignStart="@+id/textView11"
+        android:layout_marginEnd="35dp"
+        app:cardCornerRadius="18dp"
+        app:cardElevation="18dp">
+
+        <EditText
+            android:id="@+id/editTextText6"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="16dp"
+            android:autofillHints=""
+            android:background="#00FFFFFF"
+            android:ems="10"
+            android:hint="@string/total"
+            android:inputType="text" />
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>
