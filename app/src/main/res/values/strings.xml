@@ -12,7 +12,10 @@
     <string name="home">Home</string>
     <string name="riwayat">Riwayat</string>
     <string name="user">User</string>
-<!-- TODO: Remove or change this placeholder text -->
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="layanan_kami">Layanan Kami</string>
+    <string name="pesanan_aktif">Pesanan Aktif</string>
+    <string name="kalkulator">Kalkulator</string>
+    <string name="voucher">Voucher</string>
 </resources>

@@ -1,17 +1,43 @@
 package com.olivia.laundry
 
+
 import android.os.Bundle
-import android.widget.Adapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.navigation.NavigationBarView
 import com.olivia.laundry.databinding.ActivityMainBinding
 import com.olivia.laundry.fragment.HomeFragment
+import com.olivia.laundry.fragment.PesananFragment
 import com.olivia.laundry.viewpager.MainViewPager
 
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     lateinit var myAdapter: MainViewPager
+
+    private val mOnNavigationItemSelectedListener = NavigationBarView.OnItemSelectedListener{ item ->
+        when (item.itemId) {
+            R.id.home -> {
+                binding.fL.currentItem = 0
+                return@OnItemSelectedListener true
+            }
+            R.id.pesanan -> {
+                binding.fL.currentItem = 1
+                return@OnItemSelectedListener true
+            }
+            R.id.riwayat -> {
+                binding.fL.currentItem = 2
+                return@OnItemSelectedListener true
+            }
+            R.id.user -> {
+                binding.fL.currentItem = 3
+                return@OnItemSelectedListener true
+            }
+            else -> 0
+        }
+        false
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -24,6 +50,7 @@ class MainActivity : AppCompatActivity() {
 
         // add Fragments in your ViewPagerFragmentAdapter class
         myAdapter.addFragment(HomeFragment())
+        myAdapter.addFragment(PesananFragment())
 
 
         // set Orientation in your ViewPager2
@@ -33,14 +60,44 @@ class MainActivity : AppCompatActivity() {
 
         binding.fL.adapter = myAdapter
 
-        /* Tambahkan jika nanti membuat fragment terbaru */
-        binding.bottomNavBar.setOnItemSelectedListener{
-            binding.fL.currentItem = when(it.itemId){
-                R.id.home -> 0
-                else -> 0
-            }
+        binding.bottomNavBar.setOnItemSelectedListener(mOnNavigationItemSelectedListener)
 
-            true
-        }
+        binding.fL.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                when (position) {
+                    0 -> binding.bottomNavBar.menu.findItem(R.id.home).isChecked = true
+                    1 -> binding.bottomNavBar.menu.findItem(R.id.pesanan).isChecked = true
+                    2 -> binding.bottomNavBar.menu.findItem(R.id.riwayat).isChecked = true
+                    3 -> binding.bottomNavBar.menu.findItem(R.id.user).isChecked = true
+                    else -> 0
+                }
+
+            }
+        })
+
+        /* Tambahkan jika nanti membuat fragment terbaru */
+//        binding.bottomNavBar.setOnItemSelectedListener{
+//            binding.fL.currentItem = when(it.itemId){
+//                R.id.home -> binding.bottomNavBar.bottom
+//                R.id.pesanan -> 1
+//                else -> 0
+//            }
+//
+//
+//
+//            true
+//        }
+
+//        binding.bottomNavBar.setOnItemSelectedListener {
+//            when (it.getItemId()) {
+//                R.id.home -> binding.fL.currentItem = 0
+//                R.id.pesanan -> binding.fL.currentItem = 1
+//
+//            }
+//            true
+//        }
+
+
     }
 }
