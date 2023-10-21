@@ -21,4 +21,6 @@
     <string name="berat">Berat</string>
     <string name="jenis">Jenis</string>
     <string name="total">Total</string>
+    <string name="alamat_pengiriman">Alamat Pengiriman</string>
+    <string name="biaya_pengiriman">Biaya Pengiriman</string>
 </resources>
