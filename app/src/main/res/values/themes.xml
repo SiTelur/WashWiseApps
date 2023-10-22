@@ -56,5 +56,9 @@
         <item name="cornerSizeBottomLeft">30dp</item>
     </style>
 
+    <style name="RadioButtonHover">
+        <item name="android:background">@drawable/radio_button_hover</item>
+    </style>
+
 
 </resources>
