@@ -64,7 +64,7 @@
                     android:layout_height="match_parent">
 
                     <androidx.cardview.widget.CardView
-                        android:id="@+id/cvBeratKalkulator"
+                        android:id="@+id/textView36"
                         android:layout_width="118dp"
                         android:layout_height="wrap_content"
                         android:layout_alignTop="@+id/textView21"
@@ -73,7 +73,7 @@
                         app:cardCornerRadius="18dp">
 
                         <TextView
-                            android:id="@+id/editTextText4"
+                            android:id="@+id/Status"
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
                             android:layout_gravity="center"
@@ -238,9 +238,9 @@
                         android:id="@+id/textView23"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignStart="@+id/cvBeratKalkulator"
+                        android:layout_alignStart="@+id/textView36"
                         android:layout_alignTop="@+id/textView22"
-                        android:layout_alignEnd="@+id/cvBeratKalkulator"
+                        android:layout_alignEnd="@+id/textView36"
                         android:layout_alignBottom="@+id/textView22"
                         android:layout_marginBottom="0dp"
                         android:gravity="center"
