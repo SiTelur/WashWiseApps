@@ -13,6 +13,12 @@
         android:theme="@style/Theme.WashWiseOlivia"
         tools:targetApi="31">
         <activity
+            android:name=".ReceiptActivity"
+            android:exported="true" />
+        <activity
+            android:name=".CheckOutActivity"
+            android:exported="true" />
+        <activity
             android:name=".DetailOrderActivity"
             android:exported="true" />
         <activity
