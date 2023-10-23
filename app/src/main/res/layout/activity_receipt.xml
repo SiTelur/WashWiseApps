@@ -6,6 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".ReceiptActivity">
 
+    <ImageButton
+        android:id="@+id/imageButton4"
+        android:layout_width="48dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/button3"
+        android:layout_alignBottom="@+id/button3"
+        android:layout_marginEnd="192dp"
+        android:layout_marginBottom="0dp"
+        android:layout_toEndOf="@+id/imageButton3"
+        android:background="#00FFFFFF"
+        android:contentDescription="Share"
+        app:srcCompat="@drawable/download"
+        tools:contentDescription="Download" />
+
     <androidx.cardview.widget.CardView
         android:id="@+id/cvDetailOrder"
         android:layout_width="match_parent"
@@ -15,7 +29,6 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="24dp"
         app:cardBackgroundColor="@color/biru"
         app:cardCornerRadius="20dp">
 
@@ -277,4 +290,26 @@
         android:layout_marginTop="4dp"
         android:layout_marginEnd="58dp"
         android:text="Status Order" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="173dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cvDetailOrder"
+        android:layout_alignEnd="@+id/cvDetailOrder"
+        android:layout_marginTop="24dp"
+        android:text="selesai" />
+
+    <ImageButton
+        android:id="@+id/imageButton3"
+        android:layout_width="48dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/cvDetailOrder"
+        android:layout_alignTop="@+id/button3"
+        android:layout_alignBottom="@+id/button3"
+        android:layout_marginBottom="0dp"
+        android:background="#00FFFFFF"
+        android:contentDescription="Share"
+        app:srcCompat="@drawable/share" />
+
 </RelativeLayout>
