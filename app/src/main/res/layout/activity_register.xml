@@ -33,7 +33,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/btn_Masuk"
+                android:layout_below="@+id/btn_register"
                 android:layout_centerInParent="false"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="false"
@@ -44,10 +44,10 @@
                     android:id="@+id/textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/belummemilikiakun" />
+                    android:text="Sudah memiliki Akun?" />
 
                 <TextView
-                    android:id="@+id/textView2"
+                    android:id="@+id/txtRegister"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="6dp"
@@ -68,56 +68,57 @@
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/editTextText"
+                android:id="@+id/txtNama"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_below="@+id/register"
                 android:layout_alignStart="@+id/register"
                 android:layout_marginStart="0dp"
+                android:autofillHints=""
                 android:ems="10"
                 android:fontFamily="@font/poppins_medium"
                 android:hint="@string/nama"
-                android:inputType="text"
-                android:autofillHints="" />
+                android:inputType="text|textPersonName" />
 
             <EditText
-                android:id="@+id/editTextText3"
+                android:id="@+id/txtNomerTelepon"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_below="@+id/editTextText"
-                android:layout_alignStart="@+id/editTextText"
-                android:layout_alignEnd="@+id/editTextText"
+                android:layout_below="@+id/txtNama"
+                android:layout_alignStart="@+id/txtNama"
+                android:layout_alignEnd="@+id/txtNama"
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="8dp"
+                android:autofillHints=""
                 android:ems="10"
                 android:fontFamily="@font/poppins_medium"
                 android:hint="@string/nomor_telepon"
                 android:inputType="text"
                 android:textColor="@color/navy"
-                android:autofillHints="" />
+                tools:inputType="phone" />
 
             <EditText
-                android:id="@+id/editTextText5"
+                android:id="@+id/txtEmail"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_below="@+id/editTextText3"
-                android:layout_alignStart="@+id/editTextText3"
-                android:layout_alignEnd="@+id/editTextText"
+                android:layout_below="@+id/txtNomerTelepon"
+                android:layout_alignStart="@+id/txtNomerTelepon"
+                android:layout_alignEnd="@+id/txtNama"
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="8dp"
+                android:autofillHints=""
                 android:ems="10"
                 android:fontFamily="@font/poppins_medium"
                 android:hint="@string/email"
-                android:inputType="text"
-                android:autofillHints="" />
+                android:inputType="text|textEmailAddress" />
 
             <EditText
-                android:id="@+id/editTextText6"
+                android:id="@+id/txtPassword"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_below="@+id/editTextText5"
-                android:layout_alignStart="@+id/editTextText5"
-                android:layout_alignEnd="@+id/editTextText"
+                android:layout_below="@+id/txtEmail"
+                android:layout_alignStart="@+id/txtEmail"
+                android:layout_alignEnd="@+id/txtNama"
                 android:layout_marginTop="12dp"
                 android:ems="10"
                 android:fontFamily="@font/poppins_medium"
@@ -126,12 +127,12 @@
                 android:autofillHints="" />
 
             <Button
-                android:id="@+id/btn_Masuk"
+                android:id="@+id/btn_register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/editTextText6"
-                android:layout_marginTop="20dp"
-                android:text="@string/masuk" />
+                android:layout_below="@+id/txtPassword"
+                android:layout_marginTop="34dp"
+                android:text="@string/register" />
 
         </RelativeLayout>
 

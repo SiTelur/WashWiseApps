@@ -96,7 +96,7 @@
         app:cardElevation="18dp">
 
         <Spinner
-            android:id="@+id/editTextText5"
+            android:id="@+id/txtEmail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="16dp"
@@ -115,7 +115,7 @@
         app:cardElevation="18dp">
 
         <EditText
-            android:id="@+id/editTextText6"
+            android:id="@+id/txtPassword"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="16dp"
