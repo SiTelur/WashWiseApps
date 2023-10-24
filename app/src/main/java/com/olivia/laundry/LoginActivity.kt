@@ -1,9 +1,7 @@
 package com.olivia.laundry
 
-import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
-import android.text.InputType
 import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import android.view.View
@@ -23,7 +21,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
         auth = FirebaseAuth.getInstance()
 
-        binding.checkBox2.setOnCheckedChangeListener { buttonView, isChecked -> // If the checkbox is checked, show the password.
+        binding.checkBox2.setOnCheckedChangeListener { _, isChecked -> // If the checkbox is checked, show the password.
             // Otherwise, hide the password.
             binding.txtPasswordLogin.transformationMethod = if (isChecked) null else PasswordTransformationMethod.getInstance()
             binding.txtPasswordLogin.clearFocus()
@@ -50,6 +48,7 @@ class LoginActivity : AppCompatActivity() {
                 .addOnSuccessListener {
                     Log.d(this.toString(), "signInWithEmail:success")
                     startActivity(Intent(this,MainActivity::class.java))
+                    finish()
                     binding.progressBar.visibility = View.GONE;
                     window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 }
