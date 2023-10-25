@@ -56,13 +56,13 @@
 
         <CheckBox
             android:id="@+id/checkBox"
-            style="@style/Widget.Material3.CompoundButton.CheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/imageView9"
             android:layout_alignBottom="@id/imageView9"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="false" />
+            android:layout_alignParentBottom="false"
+            android:buttonTint="@color/navy" />
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>
