@@ -1,11 +1,24 @@
 package com.olivia.laundry.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.olivia.laundry.LoginActivity
+import com.olivia.laundry.MainActivity
 import com.olivia.laundry.R
+import com.olivia.laundry.databinding.FragmentUserBinding
+import com.olivia.laundry.dialoguser.ChangeEmailFragment
+import com.olivia.laundry.dialoguser.ChangePasswordFragment
+import com.olivia.laundry.dialoguser.ChangeUserDetailFragment
+import com.olivia.laundry.dialoguser.TambahAlamatFragment
+
 
 /**
  * A simple [Fragment] subclass.
@@ -23,13 +36,58 @@ class UserFragment : Fragment() {
             mParam2 = requireArguments().getString(ARG_PARAM2)
         }
     }
+    private lateinit var binding: FragmentUserBinding
+    private lateinit var auth: FirebaseAuth
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_user, container, false)
+        binding = FragmentUserBinding.inflate(inflater)
+        auth = Firebase.auth
+        val user = auth.currentUser
+        val db = Firebase.firestore
+
+        binding.textView44.text = auth.currentUser?.displayName
+        binding.toolbar.setOnMenuItemClickListener {
+            when(it.itemId){
+                R.id.userLogOut -> {
+                    auth.signOut()
+                    startActivity(Intent(activity, LoginActivity::class.java))
+                    return@setOnMenuItemClickListener true
+                }
+
+                else -> {return@setOnMenuItemClickListener false}
+            }
+        }
+        var alamat = ""
+        user?.let {
+            binding.textView2.text = it.displayName
+            db.collection("User").document(it.uid).get().addOnSuccessListener { data ->
+                alamat = data.getString("address").toString()
+            }
+        }
+        binding.cvAlamat.setOnClickListener {
+            val tambahAlamatFragment = TambahAlamatFragment.newInstance(alamat,null)
+            tambahAlamatFragment.show(childFragmentManager,"ShowAlamat")
+        }
+
+        binding.cvEmail.setOnClickListener {
+            ChangeEmailFragment().show(childFragmentManager,"ShowChangeEmail")
+        }
+
+        binding.cvPassword.setOnClickListener {
+            ChangePasswordFragment().show(childFragmentManager,"ShowChangePassword")
+        }
+
+        binding.imageButton.setOnClickListener {
+            ChangeUserDetailFragment().show(childFragmentManager,"ShowDetailUser")
+        }
+
+
+        return binding.root
     }
 
     companion object {

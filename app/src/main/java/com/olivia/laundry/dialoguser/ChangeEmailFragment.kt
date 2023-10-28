@@ -1,25 +1,23 @@
-package com.olivia.laundry.fragment
+package com.olivia.laundry.dialoguser
 
 import android.os.Bundle
 import android.util.Log
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.firebase.ui.firestore.FirestoreRecyclerOptions
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
-import com.olivia.laundry.adapter.PesananAdapter
-import com.olivia.laundry.databinding.FragmentPesananBinding
-import com.olivia.laundry.models.JenisPesananModels
+import androidx.fragment.app.DialogFragment
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import com.olivia.laundry.R
+import com.olivia.laundry.databinding.FragmentChangeEmailBinding
 
 /**
  * A simple [Fragment] subclass.
- * Use the [PesananFragment.newInstance] factory method to
+ * Use the [ChangeEmailFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class PesananFragment : Fragment() {
+class ChangeEmailFragment : DialogFragment() {
     // TODO: Rename and change types of parameters
     private var mParam1: String? = null
     private var mParam2: String? = null
@@ -29,42 +27,39 @@ class PesananFragment : Fragment() {
             mParam1 = requireArguments().getString(ARG_PARAM1)
             mParam2 = requireArguments().getString(ARG_PARAM2)
         }
+        setStyle(STYLE_NORMAL, R.style.AppTheme_FullScreenDialog);
     }
-
-    lateinit var binding: FragmentPesananBinding
+    lateinit var binding: FragmentChangeEmailBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        binding = FragmentChangeEmailBinding.inflate(inflater)
         // Inflate the layout for this fragment
-        binding = FragmentPesananBinding.inflate(inflater)
+        binding.button5.setOnClickListener{
+            val user = Firebase.auth.currentUser
 
-        val query: Query = FirebaseFirestore.getInstance().collection("JenisPesanan")
-
-
-        val option = FirestoreRecyclerOptions.Builder<JenisPesananModels>()
-            .setQuery(query, JenisPesananModels::class.java)
-            .build()
-
-        val adapter = PesananAdapter(option)
-        binding.rvPesanan.layoutManager = LinearLayoutManager(container?.context, LinearLayoutManager.VERTICAL ,false)
-        binding.rvPesanan.adapter = adapter
-        adapter.listener = object :PesananAdapter.CheckboxListener{
-            override fun onCheckboxClicked(model: Int?) {
-                Log.d("PesananFragment", "onCheckboxClicked: $model")
-                binding.textView49.text = model.toString()
-
-                binding.button4.isEnabled = model != 0
+            if (binding.editTextTextEmailAddress.length() < 6){
+                return@setOnClickListener
             }
 
-        }
-        adapter.startListening()
+            if (!isValidEmail(binding.editTextTextEmailAddress.text)){
+                return@setOnClickListener
+            }
 
+            user!!.updateEmail(binding.editTextTextEmailAddress.text.toString())
+                .addOnSuccessListener {
+                    Log.d("ChangeEmail", "Email has been change.")
+                }
+            dismiss()
+        }
 
 
         return binding.root
     }
-
+    private fun isValidEmail(target: CharSequence?): Boolean {
+        return target != null && Patterns.EMAIL_ADDRESS.matcher(target).matches()
+    }
     companion object {
         // TODO: Rename parameter arguments, choose names that match
         // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -77,11 +72,11 @@ class PesananFragment : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment PesananFragment.
+         * @return A new instance of fragment EditProfileFragment.
          */
         // TODO: Rename and change types and number of parameters
-        fun newInstance(param1: String?, param2: String?): PesananFragment {
-            val fragment = PesananFragment()
+        fun newInstance(param1: String?, param2: String?): ChangeEmailFragment {
+            val fragment = ChangeEmailFragment()
             val args = Bundle()
             args.putString(ARG_PARAM1, param1)
             args.putString(ARG_PARAM2, param2)

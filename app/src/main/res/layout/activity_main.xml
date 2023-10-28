@@ -11,7 +11,13 @@
         android:id="@+id/fL"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/bottomNavBar"/>
+        android:layout_above="@+id/bottomNavBar"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavBar"
@@ -22,5 +28,6 @@
         android:layout_alignParentBottom="true"
         android:animateLayoutChanges="true"
         android:background="@color/biru"
+        android:foregroundGravity="bottom"
         app:menu="@menu/main_bottom_nav_item" />
 </RelativeLayout>

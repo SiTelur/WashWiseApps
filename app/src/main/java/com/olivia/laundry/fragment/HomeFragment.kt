@@ -37,7 +37,7 @@ class HomeFragment : Fragment() {
             mParam2 = requireArguments().getString(ARG_PARAM2)
         }
     }
-lateinit var binding: FragmentHomeBinding
+private lateinit var binding: FragmentHomeBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,15 +48,12 @@ lateinit var binding: FragmentHomeBinding
 
         val user = Firebase.auth.currentUser
         binding.userName.text = user?.displayName
+        Log.d("HomeFragment", "onCreateView: ${user?.displayName}")
         Log.d("HomeFragment", "onCreateView: ${user?.uid}")
 
         binding.kalkulator.setOnClickListener {
             startActivity(Intent(activity,KalkulatorActivity::class.java))
         }
-
-
-
-
         val pesananReff = FirebaseFirestore.getInstance().collection("ListPesanan")
         val query = FirebaseFirestore.getInstance().collection("ListPesanan").whereEqualTo("UID",user?.uid).whereNotEqualTo("StatusPesanan","Selesai")
 

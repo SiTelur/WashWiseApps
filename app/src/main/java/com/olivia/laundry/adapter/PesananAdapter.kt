@@ -13,7 +13,7 @@ class PesananAdapter(option:FirestoreRecyclerOptions<JenisPesananModels>): Fires
     private val selectCheck = ArrayList<Int>()
     var supportSchoolIdModels: ArrayList<JenisPesananModels>? = null
     var ischecked: Boolean = false
-
+    var listener: CheckboxListener? = null
 
     inner class ViewHolder(val binding: ListItemPesananBinding):RecyclerView.ViewHolder(binding.root){
 
@@ -23,19 +23,36 @@ class PesananAdapter(option:FirestoreRecyclerOptions<JenisPesananModels>): Fires
         return ViewHolder(ListItemPesananBinding.inflate(LayoutInflater.from(parent.context),parent,false))
     }
     private var selectedPosition = -1 // no selection by default
-
+    var selections = mutableSetOf<String>()
     override fun onBindViewHolder(holder: ViewHolder, position: Int, model: JenisPesananModels) {
         with(holder){
 
             binding.eta.text = model.ETA
             binding.jenis3.text = model.HargaPerKilo.toString()
             binding.jenis.text = model.Jenis
-            binding.checkBox.isChecked = selectedPosition == position;
 
-            binding.checkBox.setOnCheckedChangeListener { compoundButton, b ->
-                selectedPosition = holder.bindingAdapterPosition
-            }
-            
+            val modelItem = getItem(position)
+
+            binding.checkBox.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    if (selections.size < 1) {
+                        modelItem.Jenis?.let { selections.add(it) }
+                        listener?.onCheckboxClicked(modelItem.HargaPerKilo)
+                    } else {
+                        binding.checkBox.isChecked = false
+                        // Show snackbar that max selections reached
+                    }
+                } else {
+                    selections.remove(modelItem.Jenis)
+                    listener?.onCheckboxClicked(0)
+
+                }
+
         }
+    }
+}
+
+    interface CheckboxListener {
+        fun onCheckboxClicked(model: Int?)
     }
 }
