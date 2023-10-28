@@ -56,13 +56,23 @@
 
         <CheckBox
             android:id="@+id/checkBox"
-            style="@style/Widget.Material3.CompoundButton.CheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/imageView9"
             android:layout_alignBottom="@id/imageView9"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="false" />
+            android:layout_alignParentBottom="false"
+            android:buttonTint="@color/navy" />
+
+        <TextView
+            android:id="@+id/textView50"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/jenis3"
+            android:layout_alignBottom="@+id/jenis3"
+            android:layout_marginStart="2dp"
+            android:layout_toEndOf="@+id/jenis3"
+            android:text="/ Kg" />
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

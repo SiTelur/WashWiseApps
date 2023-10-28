@@ -1,19 +1,23 @@
 package com.olivia.laundry
 
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.navigation.NavigationBarView
 import com.olivia.laundry.databinding.ActivityMainBinding
 import com.olivia.laundry.fragment.HomeFragment
 import com.olivia.laundry.fragment.PesananFragment
+import com.olivia.laundry.fragment.RiwayatFragment
+import com.olivia.laundry.fragment.UserFragment
 import com.olivia.laundry.viewpager.MainViewPager
 
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
-    lateinit var myAdapter: MainViewPager
+    private lateinit var myAdapter: MainViewPager
 
     private val mOnNavigationItemSelectedListener = NavigationBarView.OnItemSelectedListener{ item ->
         when (item.itemId) {
@@ -36,9 +40,9 @@ class MainActivity : AppCompatActivity() {
             else -> {binding.fL.currentItem = 0
                 return@OnItemSelectedListener true}
         }
-        false
     }
 
+    @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -52,6 +56,8 @@ class MainActivity : AppCompatActivity() {
         // add Fragments in your ViewPagerFragmentAdapter class
         myAdapter.addFragment(HomeFragment())
         myAdapter.addFragment(PesananFragment())
+        myAdapter.addFragment(RiwayatFragment())
+        myAdapter.addFragment(UserFragment())
 
 
         // set Orientation in your ViewPager2
