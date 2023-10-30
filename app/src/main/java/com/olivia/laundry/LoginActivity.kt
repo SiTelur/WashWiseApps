@@ -63,6 +63,7 @@ class LoginActivity : AppCompatActivity() {
 
         binding.txtRegister.setOnClickListener {
             startActivity(Intent(this,RegisterActivity::class.java))
+            finish()
         }
 
     }
@@ -72,6 +73,7 @@ class LoginActivity : AppCompatActivity() {
         val currentUser = auth.currentUser
         if (currentUser != null){
             startActivity(Intent(this,MainActivity::class.java))
+            finish()
         }
     }
 }

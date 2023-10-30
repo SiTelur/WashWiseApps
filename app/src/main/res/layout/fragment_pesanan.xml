@@ -50,8 +50,9 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="false"
-                    android:layout_centerVertical="true"
+                    android:layout_centerVertical="false"
                     android:layout_marginStart="24dp"
+                    android:layout_marginTop="8dp"
                     android:text="Harga"
                     android:textSize="18sp" />
 
@@ -84,6 +85,22 @@
                     android:layout_marginEnd="36dp"
                     android:enabled="false"
                     android:text="Pesan" />
+
+                <TextView
+                    android:id="@+id/textView53"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    android:visibility="invisible" />
+
+                <CheckBox
+                    android:id="@+id/checkBox6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textView51"
+                    android:layout_alignStart="@+id/textView51"
+                    android:text="Gunakan Kupon" />
+
             </RelativeLayout>
 
         </androidx.cardview.widget.CardView>

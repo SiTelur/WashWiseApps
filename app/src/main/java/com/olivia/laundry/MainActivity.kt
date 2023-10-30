@@ -3,9 +3,13 @@ package com.olivia.laundry
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationBarView
 import com.olivia.laundry.databinding.ActivityMainBinding
 import com.olivia.laundry.fragment.HomeFragment
@@ -83,6 +87,14 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+        onBackPressedDispatcher.addCallback(this,object:OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                Log.d("MainActivity", "handleOnBackPressed")
+                showDialog()
+            }
+
+        })
+
         /* Tambahkan jika nanti membuat fragment terbaru */
 //        binding.bottomNavBar.setOnItemSelectedListener{
 //            binding.fL.currentItem = when(it.itemId){
@@ -107,4 +119,15 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+
+    private fun showDialog() {
+        MaterialAlertDialogBuilder(this).apply {
+            setTitle("are you sure?")
+            setMessage("want to close the application ?")
+            setPositiveButton("Yes") { _, _ -> finish() }
+            setNegativeButton("No", null)
+            show()
+        }
+    }
+
 }

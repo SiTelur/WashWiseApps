@@ -8,11 +8,16 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.firebase.Timestamp
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import com.google.firebase.ktx.Firebase
 import com.olivia.laundry.adapter.PesananAdapter
 import com.olivia.laundry.databinding.FragmentPesananBinding
 import com.olivia.laundry.models.JenisPesananModels
+import com.olivia.laundry.models.PesananModels
+import com.olivia.laundry.models.ProgressModels
 
 /**
  * A simple [Fragment] subclass.
@@ -50,16 +55,39 @@ class PesananFragment : Fragment() {
         binding.rvPesanan.layoutManager = LinearLayoutManager(container?.context, LinearLayoutManager.VERTICAL ,false)
         binding.rvPesanan.adapter = adapter
         adapter.listener = object :PesananAdapter.CheckboxListener{
-            override fun onCheckboxClicked(model: Int?) {
-                Log.d("PesananFragment", "onCheckboxClicked: $model")
+            override fun onCheckboxClicked(model: Int?, documentID: String?) {
+                Log.d("PesananFragment", "Harga : $model, DocumentID : $documentID")
                 binding.textView49.text = model.toString()
-
                 binding.button4.isEnabled = model != 0
+                binding.textView53.text = documentID.toString()
             }
 
         }
         adapter.startListening()
+        if (binding.checkBox6.isChecked){
+            Log.d("PesananFragment", "onCreateView: gunakanVoucher")
+        }else{
+            Log.d("PesananFragment", "onCreateView: tidakmenggunakanVoucher")
+        }
 
+        val user = Firebase.auth.currentUser
+        binding.button4.setOnClickListener {
+            val db = FirebaseFirestore.getInstance()
+            val pesananModels = PesananModels("Order Create",user?.uid,
+                Timestamp.now(),binding.textView53.text.toString(),0)
+            val progressModels = ProgressModels(Timestamp.now(),"PesananDibuat")
+
+            if (binding.checkBox6.isChecked){
+                Log.d("PesananFragment", "onCreateView: gunakanVoucher")
+            }else{
+                Log.d("PesananFragment", "onCreateView: tidakmenggunakanVoucher")
+            }
+            db.collection("ListPesanan").add(pesananModels).addOnSuccessListener {
+                db.collection("ListPesanan").document(it.id).collection("progress").add(progressModels).addOnSuccessListener {
+                    Log.d("PesananFragment", "Berhasil Menyimpan")
+                }
+            }
+        }
 
 
         return binding.root

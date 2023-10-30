@@ -37,15 +37,14 @@ class PesananAdapter(option:FirestoreRecyclerOptions<JenisPesananModels>): Fires
                 if (isChecked) {
                     if (selections.size < 1) {
                         modelItem.Jenis?.let { selections.add(it) }
-                        listener?.onCheckboxClicked(modelItem.HargaPerKilo)
+                        listener?.onCheckboxClicked(modelItem.HargaPerKilo,model.id)
                     } else {
                         binding.checkBox.isChecked = false
                         // Show snackbar that max selections reached
                     }
                 } else {
                     selections.remove(modelItem.Jenis)
-                    listener?.onCheckboxClicked(0)
-
+                    listener?.onCheckboxClicked(0,null)
                 }
 
         }
@@ -53,6 +52,6 @@ class PesananAdapter(option:FirestoreRecyclerOptions<JenisPesananModels>): Fires
 }
 
     interface CheckboxListener {
-        fun onCheckboxClicked(model: Int?)
+        fun onCheckboxClicked(model: Int?,documentID:String?)
     }
 }

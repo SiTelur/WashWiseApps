@@ -26,7 +26,9 @@
             android:exported="true" />
         <activity
             android:name=".DetailOrderActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:label="Detail Pesanan"
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".KalkulatorActivity"
             android:exported="false"
