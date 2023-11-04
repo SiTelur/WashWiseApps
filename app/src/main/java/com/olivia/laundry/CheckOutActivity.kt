@@ -40,15 +40,7 @@ class CheckOutActivity : AppCompatActivity() {
         binding.button2.setOnClickListener {
             when(selectedPayment) {
                 "qris" -> {
-                    UiKitApi.Builder()
-                        .withMerchantClientKey(CLIENT_KEY) // client_key is mandatory
-                        .withContext(this) // context is mandatory
-                        .withMerchantUrl(BASE_URL) // set transaction finish callback (sdk callback)
-                        .enableLog(true) // enable sdk log (optional)
-                        .withFontFamily(ASSET_FONT)
-                        .withColorTheme(CustomColorTheme("#FFE51255", "#B61548", "#FFE51255"))
-                        .build()
-                    setLocaleNew("en")
+
                     Log.d("CheckOutActivity", "onCreate: Anda Menggunakan QRIS")
                 }
                 "cod" -> {
