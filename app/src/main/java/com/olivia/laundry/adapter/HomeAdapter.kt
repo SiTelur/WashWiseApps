@@ -15,7 +15,7 @@ import com.olivia.laundry.models.PesananModels
 
 class HomeAdapter(options: FirestoreRecyclerOptions<PesananModels>) :
     FirestoreRecyclerAdapter<PesananModels, HomeAdapter.ViewHolder>(options) {
-    class ViewHolder(val binding:ListItemHomeBinding):RecyclerView.ViewHolder(binding.root)
+    class ViewHolder(val binding:ListItemHomeBinding):RecyclerView.ViewHolder(binding.root){}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 

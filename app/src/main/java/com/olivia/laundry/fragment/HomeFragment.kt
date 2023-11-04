@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -56,7 +57,7 @@ private lateinit var binding: FragmentHomeBinding
             startActivity(Intent(activity,KalkulatorActivity::class.java))
         }
         val pesananReff = FirebaseFirestore.getInstance().collection("ListPesanan")
-        val query = FirebaseFirestore.getInstance().collection("ListPesanan").whereEqualTo("uid",user?.uid).whereNotEqualTo("orderStatus","Selesai")
+        val query = FirebaseFirestore.getInstance().collection("ListPesanan").whereEqualTo("uid",user?.uid).whereNotEqualTo("orderStatus","Pesanan Selesai")
 
 
         val option = FirestoreRecyclerOptions.Builder<PesananModels>()

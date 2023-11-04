@@ -5,9 +5,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -71,22 +73,36 @@ class PesananFragment : Fragment() {
         }
 
         val user = Firebase.auth.currentUser
-        binding.button4.setOnClickListener {
+
             val db = FirebaseFirestore.getInstance()
-            val pesananModels = PesananModels("Order Create",user?.uid,
-                Timestamp.now(),binding.textView53.text.toString(),0)
-            val progressModels = ProgressModels(Timestamp.now(),"PesananDibuat")
+
+            val progressModels = ProgressModels(Timestamp.now(),"Pesanan Dibuat")
 
             if (binding.checkBox6.isChecked){
                 Log.d("PesananFragment", "onCreateView: gunakanVoucher")
             }else{
                 Log.d("PesananFragment", "onCreateView: tidakmenggunakanVoucher")
             }
-            db.collection("ListPesanan").add(pesananModels).addOnSuccessListener {
-                db.collection("ListPesanan").document(it.id).collection("progress").add(progressModels).addOnSuccessListener {
-                    Log.d("PesananFragment", "Berhasil Menyimpan")
+
+        binding.button4.setOnClickListener {
+            MaterialAlertDialogBuilder(requireContext()).apply {
+                setTitle("Apakah Pesanan Anda Benar?")
+                setMessage("Pesanan Tidak Dapat Dibatalkan")
+                setPositiveButton("Yes") { _, _ ->
+                    val pesananModels = PesananModels("Pesanan Dibuat",user?.uid,
+                        Timestamp.now(),binding.textView53.text.toString(),0)
+                    Log.d("PesananFragment", "onCreateView: $pesananModels")
+                    db.collection("ListPesanan").add(pesananModels).addOnSuccessListener {
+                        db.collection("ListPesanan").document(it.id).collection("progress").add(progressModels).addOnSuccessListener {
+                            Log.d("PesananFragment", "Berhasil Menyimpan")
+                            Toast.makeText(activity, "Anda Berhasil Pesan", Toast.LENGTH_SHORT).show()
+                        }
+                    }
                 }
+                    setNegativeButton("No", null)
+                    show()
             }
+
         }
 
 

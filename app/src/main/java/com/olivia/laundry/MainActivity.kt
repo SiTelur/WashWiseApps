@@ -11,6 +11,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationBarView
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
 import com.olivia.laundry.databinding.ActivityMainBinding
 import com.olivia.laundry.fragment.HomeFragment
 import com.olivia.laundry.fragment.PesananFragment
@@ -81,7 +85,6 @@ class MainActivity : AppCompatActivity() {
                     1 -> binding.bottomNavBar.menu.findItem(R.id.pesanan).isChecked = true
                     2 -> binding.bottomNavBar.menu.findItem(R.id.riwayat).isChecked = true
                     3 -> binding.bottomNavBar.menu.findItem(R.id.user).isChecked = true
-                    else -> 0
                 }
 
             }
@@ -94,7 +97,6 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
-
         /* Tambahkan jika nanti membuat fragment terbaru */
 //        binding.bottomNavBar.setOnItemSelectedListener{
 //            binding.fL.currentItem = when(it.itemId){
@@ -122,8 +124,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun showDialog() {
         MaterialAlertDialogBuilder(this).apply {
-            setTitle("are you sure?")
-            setMessage("want to close the application ?")
+            setTitle("Are you sure?")
+            setMessage("Want to close the application ?")
             setPositiveButton("Yes") { _, _ -> finish() }
             setNegativeButton("No", null)
             show()
