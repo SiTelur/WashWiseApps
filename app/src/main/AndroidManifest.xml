@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"  />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
@@ -17,6 +18,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WashWiseOlivia"
+        tools:replace="android:allowBackup"
         tools:targetApi="31">
         <activity
             android:name=".ReceiptActivity"
@@ -26,7 +28,9 @@
             android:exported="true" />
         <activity
             android:name=".DetailOrderActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:label="Detail Pesanan"
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".KalkulatorActivity"
             android:exported="false"
@@ -59,6 +63,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

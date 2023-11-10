@@ -82,7 +82,7 @@
             android:background="#00FFFFFF"
             android:ems="10"
             android:hint="@string/berat"
-            android:inputType="text" />
+            android:inputType="number|numberDecimal" />
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
@@ -96,7 +96,7 @@
         app:cardElevation="18dp">
 
         <Spinner
-            android:id="@+id/txtEmail"
+            android:id="@+id/spinnerJenis"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="16dp"
@@ -121,9 +121,10 @@
             android:layout_marginStart="16dp"
             android:autofillHints=""
             android:background="#00FFFFFF"
+            android:editable="false"
             android:ems="10"
-            android:hint="@string/total"
-            android:inputType="text" />
+            android:enabled="true"
+            android:hint="@string/total" />
     </androidx.cardview.widget.CardView>
 
 </RelativeLayout>
