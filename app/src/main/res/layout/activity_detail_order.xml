@@ -178,9 +178,20 @@
                         android:layout_height="wrap_content"
                         android:layout_alignTop="@+id/textView63"
                         android:layout_alignParentTop="false"
-                        android:layout_marginStart="18dp"
-                        android:layout_toEndOf="@+id/textView63"
+                        android:layout_marginStart="4dp"
+                        android:layout_toEndOf="@+id/textView66"
                         android:text="TextView"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/textView66"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/textView63"
+                        android:layout_alignParentTop="false"
+                        android:layout_marginStart="4dp"
+                        android:layout_toEndOf="@+id/textView63"
+                        android:text="X"
                         android:textSize="12sp" />
 
                     <TextView

@@ -1,13 +1,17 @@
 package com.olivia.laundry.adapter
 
+import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.FirebaseFirestore
+import com.olivia.laundry.DetailOrderActivity
 import com.olivia.laundry.R
 import com.olivia.laundry.databinding.RiwayatPemesananListBinding
 import com.olivia.laundry.models.PesananModels
@@ -45,6 +49,12 @@ class RiwayatAdapter(option: FirestoreRecyclerOptions<PesananModels>):
             getPesanan?.get()?.addOnSuccessListener {
                 binding.textView58.text = it.getString("orderStatus")
               binding.textView57.text = it.getDate("orderDate")?.let { it1 -> formatter(it1) }
+            }
+            binding.cvRiwayat.setOnClickListener {
+                Log.d("HomeAdapter", "onBindViewHolder: ${model.DocID}")
+                val intent = Intent(it.context, DetailOrderActivity::class.java)
+                intent.putExtra("DocID",model.DocID)
+                ContextCompat.startActivity(it.context, intent, null)
             }
         }
     }

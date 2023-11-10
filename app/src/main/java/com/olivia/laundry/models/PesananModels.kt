@@ -10,6 +10,6 @@ data class PesananModels(
     @ServerTimestamp val orderDate: Timestamp? = null,
     var orderType:String? = null,
     var qty:Int? = null,
-    @DocumentId var DocID:String?= null
-
+    @DocumentId var DocID:String?= null,
+    var paymentStatus:String? = null
 )

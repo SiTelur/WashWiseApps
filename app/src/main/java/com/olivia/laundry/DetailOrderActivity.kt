@@ -11,11 +11,14 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.olivia.laundry.databinding.ActivityDetailOrderBinding
 import com.olivia.laundry.fragment.LacakPesananFragment
+import java.text.SimpleDateFormat
+import java.util.Date
 
 
 class DetailOrderActivity : AppCompatActivity() {
     lateinit var binding: ActivityDetailOrderBinding
     private lateinit var auth: FirebaseAuth
+    private lateinit var namaService:String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailOrderBinding.inflate(layoutInflater)
@@ -25,7 +28,7 @@ class DetailOrderActivity : AppCompatActivity() {
             WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
             WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
 
-
+        var qty =0.0
         auth = FirebaseAuth.getInstance()
 
         binding.textView15.text = intent.extras!!.getString("DocID")
@@ -54,12 +57,14 @@ class DetailOrderActivity : AppCompatActivity() {
             getAlamat?.get()?.addOnSuccessListener { address ->
                 Log.d("DetailOrderActivity", "onCreate: ${address.getString("address")}")
                 binding.textView19.text = address.getString("address")
+
             }
 
             val getPesanan = db.collection("ListPesanan").document(binding.textView15.text.toString())
             getPesanan.get().addOnSuccessListener {
                 binding.Status.text = it.getString("orderStatus")
-                binding.textView62.text = " X ${it.get("qty").toString()}"
+                binding.textView62.text = "${it.get("qty").toString()}"
+                qty = it.getDouble("qty")!!
                 Log.d("DetailOrder", "onCreate: ${it.getString("orderStatus")}")
 
                 val getJenisPesanan =
@@ -67,8 +72,8 @@ class DetailOrderActivity : AppCompatActivity() {
                         ?.let { it1 -> db.collection("JenisPesanan").document(it1) }
                 getJenisPesanan?.get()?.addOnSuccessListener { jenisPesanan ->
                     binding.textView63.text = jenisPesanan.get("HargaPerKilo").toString()
-
-                    if (binding.textView62.text == " X 0"){
+                    namaService = jenisPesanan.getString("Jenis").toString()
+                    if (binding.textView62.text == "0"){
                         binding.textView64.text = "Berat Belum Dihitung"
                     }else{
                         binding.textView64.text =
@@ -97,6 +102,8 @@ class DetailOrderActivity : AppCompatActivity() {
             intent.putExtra("BanyakService",binding.textView62.text)
             intent.putExtra("TotalService",binding.textView23.text)
             intent.putExtra("jumlahHargaService",binding.textView64.text)
+            intent.putExtra("UID",auth.currentUser!!.uid)
+            intent.putExtra("NamaService",namaService)
             startActivity(intent)
         }
 
@@ -106,4 +113,33 @@ class DetailOrderActivity : AppCompatActivity() {
 
 
     }
+
+    override fun onStart() {
+        super.onStart()
+        val db = FirebaseFirestore.getInstance()
+        db.collection("ListPesanan").document(binding.textView15.text.toString()).get().addOnSuccessListener {
+            val getJenisPesanan =
+                it.getString("orderType")
+                    ?.let { it1 -> db.collection("JenisPesanan").document(it1) }
+            getJenisPesanan?.get()?.addOnSuccessListener { jenisPesanan ->
+            if (it.getString("paymentStatus").toString() == "Success") {
+                val intent = Intent(this, ReceiptActivity::class.java)
+                intent.putExtra("orderID", binding.textView15.text)
+                intent.putExtra("orderName", jenisPesanan.getString("Jenis").toString())
+                intent.putExtra("serviceSatuan", binding.textView63.text)
+                intent.putExtra("banyak", binding.textView62.text)
+                intent.putExtra("total", binding.textView23.text)
+                intent.putExtra("hasilPerkalian", binding.textView64.text)
+                intent.putExtra("tanggalOrder", formatter(it.getDate("orderDate")))
+                startActivity(intent)
+                finish()
+            }
+            }
+        }
+    }
+    fun formatter(date: Date?): String {
+        val formatter = SimpleDateFormat("dd MMMM yyyy HH:mm")
+        return formatter.format(date)
+    }
+
 }

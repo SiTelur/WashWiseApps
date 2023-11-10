@@ -139,6 +139,16 @@
                         android:textSize="12sp" />
 
                     <TextView
+                        android:id="@+id/textView67"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_toEndOf="@+id/textView61"
+                        android:text="TextView"
+                        android:textSize="12sp" />
+
+                    <TextView
                         android:id="@+id/textView60"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -154,8 +164,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignTop="@+id/textView60"
+                        android:layout_marginStart="8dp"
                         android:layout_toEndOf="@+id/textView60"
-                        android:text="TextView"
+                        android:text="X"
                         android:textSize="12sp" />
 
                 </RelativeLayout>

@@ -46,7 +46,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="12dp"
                 android:gravity="center|clip_vertical"
-                android:text="TextView" />
+                android:text="@string/pesanan" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/listDetail"
@@ -65,6 +65,47 @@
                     android:layout_height="wrap_content">
 
                     <TextView
+                        android:id="@+id/textView68"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="12dp"
+                        android:text="TextView"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/textView26"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/textView68"
+                        android:layout_marginStart="8dp"
+                        android:layout_toEndOf="@+id/textView31"
+                        android:text="TextView"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/textView31"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/textView68"
+                        android:layout_marginStart="8dp"
+                        android:layout_toEndOf="@+id/textView68"
+                        android:text="X"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/textView69"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/textView26"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="12dp"
+                        android:text="TextView"
+                        android:textSize="12sp" />
+
+                    <TextView
                         android:id="@+id/textView36"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -72,26 +113,6 @@
                         android:layout_alignEnd="@+id/textView20"
                         android:layout_alignBottom="@+id/textView21"
                         android:text="Payment" />
-
-                    <TextView
-                        android:id="@+id/textView26"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/rvPesanan"
-                        android:layout_alignEnd="@+id/rvPesanan"
-                        android:layout_marginTop="8dp"
-                        android:text="Diskon"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/textView31"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/rvPesanan"
-                        android:layout_alignStart="@+id/rvPesanan"
-                        android:layout_marginTop="8dp"
-                        android:text="Diskon"
-                        android:textSize="12sp" />
 
                     <View
                         android:id="@+id/divider2"
@@ -109,24 +130,13 @@
                         android:layout_marginTop="16dp"
                         android:background="@drawable/div_biru" />
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rvPesanan"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/divider"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="12dp"
-                        tools:itemCount="1" />
-
                     <TextView
                         android:id="@+id/textView32"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/textView31"
-                        android:layout_alignStart="@+id/textView31"
+                        android:layout_below="@+id/textView68"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="12dp"
                         android:layout_marginTop="4dp"
                         android:text="@string/biaya_pengiriman"
                         android:textSize="12sp" />
@@ -136,8 +146,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignTop="@+id/textView32"
-                        android:layout_alignEnd="@+id/rvPesanan"
-                        android:text="TextView"
+                        android:layout_alignEnd="@+id/textView69"
+                        android:layout_marginEnd="0dp"
+                        android:text="Gratis"
                         android:textSize="12sp" />
 
                     <TextView
@@ -187,6 +198,7 @@
                         android:layout_below="@+id/textView20"
                         android:layout_alignEnd="@+id/textView20"
                         android:layout_marginTop="4dp"
+                        android:layout_marginEnd="0dp"
                         android:text="Sub Total" />
 
                     <TextView
@@ -206,6 +218,7 @@
                         android:layout_below="@+id/textView38"
                         android:layout_alignEnd="@+id/textView38"
                         android:layout_marginTop="4dp"
+                        android:layout_marginEnd="0dp"
                         android:text="@string/total"
                         android:textSize="18dp" />
 
@@ -274,7 +287,7 @@
 
     <TextView
         android:id="@+id/textView33"
-        android:layout_width="85dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView30"
         android:layout_alignStart="@+id/textView30"

@@ -80,7 +80,7 @@ class RegisterActivity : AppCompatActivity() {
                         Log.d(TAG, "User profile updated.")
                     }
 
-                    val usersModels = UsersModels(null,binding.txtNomerTelepon.text.toString())
+                    val usersModels = UsersModels(binding.txtNama.text.toString(),null,binding.txtNomerTelepon.text.toString())
                     auth.currentUser?.let { it1 -> db.collection("User").document(it1.uid).set(usersModels) }
                         ?.addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully written!") }
                         ?.addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }

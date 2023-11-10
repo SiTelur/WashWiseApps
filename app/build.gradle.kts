@@ -1,9 +1,12 @@
+import org.jetbrains.kotlin.konan.properties.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.gms.google-services")
     id("kotlin-parcelize")
 }
+
 
 android {
     namespace = "com.olivia.laundry"
@@ -15,7 +18,6 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -26,6 +28,27 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("debug")
+            var baseURL = property("BaseURL")
+            buildConfigField("String","BASE_URL","$baseURL")
+            var clientKey = property("ClientKey")
+            buildConfigField("String","CLIENT_KEY","$clientKey")
+            var merchantKey = property("MerchantID")
+            buildConfigField("String","MERCHANT_ID","$merchantKey")
+            var serverKey = property("ServerKey")
+            buildConfigField("String","SERVER_KEY","$serverKey")
+        }
+
+        debug {
+            var baseURL = property("BaseURL")
+            buildConfigField("String","BASE_URL","$baseURL")
+            var clientKey = property("ClientKeySanbox")
+            buildConfigField("String","CLIENT_KEY","$clientKey")
+            var merchantKey = property("MerchantIDSanbox")
+            buildConfigField("String","MERCHANT_ID","$merchantKey")
+            var serverKey = property("ServerKeySanbox")
+            buildConfigField("String","SERVER_KEY","$merchantKey")
+            println("$clientKey,$merchantKey,$serverKey")
         }
     }
     compileOptions {
@@ -37,19 +60,20 @@ android {
     }
     buildFeatures{
         viewBinding = true
-    }
-
-    productFlavors{
-
+        buildConfig = true
     }
 }
+
+
+
+
 
 dependencies {
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.10.0")
-    implementation(platform("com.google.firebase:firebase-bom:32.4.0"))
+    implementation(platform("com.google.firebase:firebase-bom:32.5.0"))
     implementation("com.google.firebase:firebase-messaging")
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
