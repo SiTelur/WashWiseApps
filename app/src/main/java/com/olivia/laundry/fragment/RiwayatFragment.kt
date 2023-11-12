@@ -43,6 +43,10 @@ class RiwayatFragment : Fragment() {
         binding = FragmentRiwayatBinding.inflate(inflater)
         val user = Firebase.auth.currentUser
 
+        binding.tabLayout.getTabAt(0)?.select()
+
+
+
         val nextFrag = BerlangsungFragment()
         activity?.supportFragmentManager?.beginTransaction()
             ?.replace(binding.Fl.id, nextFrag, "BerlangsungFragment")
@@ -52,6 +56,7 @@ class RiwayatFragment : Fragment() {
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
 
             override fun onTabSelected(tab: TabLayout.Tab) {
+                Log.d("Tab", "onTabSelected: $tab")
                 when (tab.position) {
                     0 -> {
 
@@ -93,11 +98,11 @@ class RiwayatFragment : Fragment() {
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
-                Log.d("TAG", "onTabUnselected: $tab")
+                Log.d("Tab", "onTabUnselected: $tab")
             }
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
-                Log.d("TAG", "onTabReselected: $tab")
+                Log.d("Tab", "onTabReselected: $tab")
             }
         })
 //

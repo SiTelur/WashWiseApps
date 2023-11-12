@@ -62,6 +62,10 @@ class ChangePasswordFragment : DialogFragment() {
             dismiss()
         }
 
+        binding.toolbar2.setNavigationOnClickListener {
+            dismiss()
+        }
+
         return binding.root
     }
 

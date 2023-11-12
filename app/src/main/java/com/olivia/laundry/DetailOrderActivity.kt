@@ -114,29 +114,29 @@ class DetailOrderActivity : AppCompatActivity() {
 
     }
 
-    override fun onStart() {
-        super.onStart()
-        val db = FirebaseFirestore.getInstance()
-        db.collection("ListPesanan").document(binding.textView15.text.toString()).get().addOnSuccessListener {
-            val getJenisPesanan =
-                it.getString("orderType")
-                    ?.let { it1 -> db.collection("JenisPesanan").document(it1) }
-            getJenisPesanan?.get()?.addOnSuccessListener { jenisPesanan ->
-            if (it.getString("paymentStatus").toString() == "Success") {
-                val intent = Intent(this, ReceiptActivity::class.java)
-                intent.putExtra("orderID", binding.textView15.text)
-                intent.putExtra("orderName", jenisPesanan.getString("Jenis").toString())
-                intent.putExtra("serviceSatuan", binding.textView63.text)
-                intent.putExtra("banyak", binding.textView62.text)
-                intent.putExtra("total", binding.textView23.text)
-                intent.putExtra("hasilPerkalian", binding.textView64.text)
-                intent.putExtra("tanggalOrder", formatter(it.getDate("orderDate")))
-                startActivity(intent)
-                finish()
-            }
-            }
-        }
-    }
+//    override fun onStart() {
+//        super.onStart()
+//        val db = FirebaseFirestore.getInstance()
+//        db.collection("ListPesanan").document(binding.textView15.text.toString()).get().addOnSuccessListener {
+//            val getJenisPesanan =
+//                it.getString("orderType")
+//                    ?.let { it1 -> db.collection("JenisPesanan").document(it1) }
+//            getJenisPesanan?.get()?.addOnSuccessListener { jenisPesanan ->
+//            if (it.getString("paymentStatus").toString() == "Success") {
+//                val intent = Intent(this, ReceiptActivity::class.java)
+//                intent.putExtra("orderID", binding.textView15.text)
+//                intent.putExtra("orderName", jenisPesanan.getString("Jenis").toString())
+//                intent.putExtra("serviceSatuan", binding.textView63.text)
+//                intent.putExtra("banyak", binding.textView62.text)
+//                intent.putExtra("total", binding.textView23.text)
+//                intent.putExtra("hasilPerkalian", binding.textView64.text)
+//                intent.putExtra("tanggalOrder", formatter(it.getDate("orderDate")))
+//                startActivity(intent)
+//                finish()
+//            }
+//            }
+//        }
+//    }
     fun formatter(date: Date?): String {
         val formatter = SimpleDateFormat("dd MMMM yyyy HH:mm")
         return formatter.format(date)
