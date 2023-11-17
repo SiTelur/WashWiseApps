@@ -46,11 +46,9 @@
                 android:id="@+id/RegistrationLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/btnLogin"
-                android:layout_centerInParent="false"
+                android:layout_above="@id/textView43"
                 android:layout_centerHorizontal="true"
-                android:layout_centerVertical="false"
-                android:layout_marginTop="11dp"
+                android:layout_marginBottom="32dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -134,7 +132,7 @@
                 android:id="@+id/btnLogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/checkBox2"
+                android:layout_above="@+id/RegistrationLayout"
                 android:text="@string/masuk" />
 
             <CheckBox
@@ -148,10 +146,10 @@
                 android:id="@+id/textView43"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/RegistrationLayout"
                 android:layout_alignStart="@+id/RegistrationLayout"
                 android:layout_alignEnd="@+id/RegistrationLayout"
-                android:layout_marginTop="24dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="8dp"
                 android:gravity="center"
                 android:text="Lupa Kata Sandi"
                 android:textColor="@color/navy" />
