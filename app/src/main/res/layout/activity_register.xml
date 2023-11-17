@@ -46,13 +46,11 @@
                 android:text="Lihat Password" />
 
             <LinearLayout
+                android:id="@+id/alreadyHave"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/btn_register"
-                android:layout_centerInParent="false"
+                android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:layout_centerVertical="false"
-                android:layout_marginTop="11dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -131,10 +129,9 @@
                 android:id="@+id/txtPassword"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_below="@+id/spinnerJenis"
+                android:layout_below="@+id/txtEmail"
                 android:layout_alignStart="@+id/spinnerJenis"
                 android:layout_alignEnd="@+id/txtNama"
-                android:layout_marginTop="12dp"
                 android:autofillHints=""
                 android:ems="10"
                 android:fontFamily="@font/poppins_medium"
@@ -145,8 +142,7 @@
                 android:id="@+id/btn_register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/checkBox3"
-                android:layout_marginTop="8dp"
+                android:layout_above="@id/alreadyHave"
                 android:text="@string/register" />
 
         </RelativeLayout>
