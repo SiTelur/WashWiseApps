@@ -105,6 +105,7 @@ class DetailOrderActivity : AppCompatActivity() {
             intent.putExtra("UID",auth.currentUser!!.uid)
             intent.putExtra("NamaService",namaService)
             startActivity(intent)
+            finish()
         }
 
         binding.textView17.setOnClickListener {

@@ -56,7 +56,9 @@ class UserFragment : Fragment() {
                 R.id.userLogOut -> {
                     auth.signOut()
                     startActivity(Intent(activity, LoginActivity::class.java))
+                    activity!!.finish()
                     return@setOnMenuItemClickListener true
+
                 }
 
                 else -> {return@setOnMenuItemClickListener false}

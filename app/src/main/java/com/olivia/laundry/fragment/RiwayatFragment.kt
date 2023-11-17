@@ -47,15 +47,7 @@ class RiwayatFragment : Fragment() {
 
 
 
-      try {
-          val nextFrag = BerlangsungFragment()
-          activity?.supportFragmentManager?.beginTransaction()
-              ?.replace(binding.Fl.id, nextFrag, "BerlangsungFragment")
-              ?.addToBackStack(null)
-              ?.commit();
-      }catch (e:Exception){
-          Log.e("RiwayatFragment", "onCreateView: gagal", e)
-      }
+
 
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
 

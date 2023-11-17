@@ -19,6 +19,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WashWiseOlivia"
         tools:replace="android:allowBackup"
+        android:preserveLegacyExternalStorage="true"
+        android:requestLegacyExternalStorage="true"
         tools:targetApi="31">
         <activity
             android:name=".ReceiptActivity"
@@ -64,6 +66,19 @@
             </intent-filter>
         </activity>
 
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.olivia.laundry.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/paths" />
+        </provider>
+            
+
+
+        
     </application>
 
 </manifest>
