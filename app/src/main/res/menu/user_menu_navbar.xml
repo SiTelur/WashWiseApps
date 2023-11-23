@@ -2,6 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/userKalkulator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="@string/kalkulator" />
+    <item
         android:id="@+id/userLogOut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

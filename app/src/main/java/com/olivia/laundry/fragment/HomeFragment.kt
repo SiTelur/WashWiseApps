@@ -47,6 +47,7 @@ private lateinit var binding: FragmentHomeBinding
     ): View {
         binding = FragmentHomeBinding.inflate(inflater)
         binding.userName.text
+        val db = FirebaseFirestore.getInstance()
 
         val user = Firebase.auth.currentUser
         binding.userName.text = user?.displayName
@@ -56,9 +57,12 @@ private lateinit var binding: FragmentHomeBinding
         binding.kalkulator.setOnClickListener {
             startActivity(Intent(activity,KalkulatorActivity::class.java))
         }
-        val pesananReff = FirebaseFirestore.getInstance().collection("ListPesanan")
-        val query = FirebaseFirestore.getInstance().collection("ListPesanan").whereEqualTo("uid",user?.uid).whereNotEqualTo("orderStatus","Pesanan Selesai")
+        val query = FirebaseFirestore.getInstance().collection("ListPesanan").whereEqualTo("uid",user?.uid).whereNotEqualTo("orderStatus","Pesanan Telah Selesai")
 
+        db.collection("User").document(user!!.uid).addSnapshotListener{ snapshot, _ ->
+            binding.progressBar4.setProgress(((snapshot!!.get("voucher").toString().toDouble() / 12 * 100).toInt()),true)
+        }
+        binding.progressBar4.setProgress(20,true)
 
         val option = FirestoreRecyclerOptions.Builder<PesananModels>()
             .setQuery(query,PesananModels::class.java)

@@ -71,7 +71,7 @@ class ChangeUserDetailFragment : DialogFragment() {
                     user!!.updateProfile(profileUpdates).addOnSuccessListener {
                         Log.d("ChangeUserDetailFragment", "UserProfile Updated")
                     }
-                    db.collection("User").document(user.uid).update("phoneNumber",binding.txtNamaEditProfil2.text.toString())
+                    db.collection("User").document(user.uid).update("phoneNumber",binding.txtNamaEditProfil2.text.toString(),"name",binding.txtNamaEditProfil.text.toString())
                     dismiss()
                    true
 

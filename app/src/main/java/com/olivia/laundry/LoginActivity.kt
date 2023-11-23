@@ -66,6 +66,10 @@ class LoginActivity : AppCompatActivity() {
             finish()
         }
 
+        binding.textView43.setOnClickListener {
+            startActivity(Intent(this,ForgetPasswordActivity::class.java))
+        }
+
     }
 
     override fun onStart() {
