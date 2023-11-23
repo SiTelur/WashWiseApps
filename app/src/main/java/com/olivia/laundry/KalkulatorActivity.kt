@@ -51,7 +51,6 @@ class KalkulatorActivity : AppCompatActivity(),AdapterView.OnItemSelectedListene
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 if (binding.Status.length() != 0) {
                     binding.txtPassword.setText("");
-                } else {
                 }
 
             }

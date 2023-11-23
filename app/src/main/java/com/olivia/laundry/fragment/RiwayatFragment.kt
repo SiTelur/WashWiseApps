@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.ktx.auth
@@ -38,15 +39,27 @@ class RiwayatFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentRiwayatBinding.inflate(inflater)
         val user = Firebase.auth.currentUser
-
+binding.tabLayout
         binding.tabLayout.getTabAt(0)?.select()
+        binding.rvRiwayatSelesai.visibility = View.GONE
+        binding.rvRiwayatBerlangsung.visibility = View.VISIBLE
+
+        val query = FirebaseFirestore.getInstance().collection("ListPesanan").whereEqualTo("uid",user?.uid).whereNotEqualTo("orderStatus","Pesanan Telah Selesai")
+
+        val option = FirestoreRecyclerOptions.Builder<PesananModels>()
+            .setQuery(query, PesananModels::class.java)
+            .build()
 
 
+        val adapter = RiwayatAdapter (option)
 
+        binding.rvRiwayatBerlangsung.layoutManager = LinearLayoutManager(container?.context, LinearLayoutManager.VERTICAL ,false)
+        binding.rvRiwayatBerlangsung.adapter = adapter
+        adapter.startListening()
 
 
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
@@ -55,39 +68,32 @@ class RiwayatFragment : Fragment() {
                 Log.d("Tab", "onTabSelected: $tab")
                 when (tab.position) {
                     0 -> {
+                        binding.rvRiwayatSelesai.visibility = View.GONE
+                        binding.rvRiwayatBerlangsung.visibility = View.VISIBLE
 
-
-                        val nextFrag = BerlangsungFragment()
-                        activity?.supportFragmentManager?.beginTransaction()
-                            ?.replace(binding.Fl.id, nextFrag, "BerlangsungFragment")
-                            ?.addToBackStack(null)
-                            ?.commit();
-//                        val query = FirebaseFirestore.getInstance().collection("ListPesanan").whereEqualTo("uid",user?.uid)
-//                        val option = FirestoreRecyclerOptions.Builder<PesananModels>()
-//                            .setQuery(query, PesananModels::class.java)
-//                            .build()
+                        val adapter0 = RiwayatAdapter(option)
+                        binding.rvRiwayatBerlangsung.layoutManager = LinearLayoutManager(container?.context, LinearLayoutManager.VERTICAL ,false)
+                        binding.rvRiwayatBerlangsung.adapter = adapter0
+                        adapter0.startListening()
 //
-//                        val adapter = RiwayatAdapter(option)
-//                        binding.rvRiwayat.layoutManager = LinearLayoutManager(container?.context, LinearLayoutManager.VERTICAL ,false)
-//                        binding.rvRiwayat.adapter = adapter
-//                        adapter.startListening()
                     }
 
                     1 -> {
-                        val nextFrag = SelesaiFragment()
-                        activity?.supportFragmentManager?.beginTransaction()
-                            ?.replace(binding.Fl.id, nextFrag, "BerlangsungFragment")
-                            ?.addToBackStack(null)
-                            ?.commit();
-//                        val query = FirebaseFirestore.getInstance().collection("ListPesanan").whereEqualTo("uid",user?.uid).whereNotEqualTo("orderStatus","Selesai")
-//                        val option = FirestoreRecyclerOptions.Builder<PesananModels>()
-//                            .setQuery(query, PesananModels::class.java)
-//                            .build()
-//
-//                        val adapter = RiwayatAdapter(option)
-//                        binding.rvRiwayat.layoutManager = LinearLayoutManager(container?.context, LinearLayoutManager.VERTICAL ,false)
-//                        binding.rvRiwayat.adapter = adapter
-//                        adapter.startListening()
+                        binding.rvRiwayatSelesai.visibility = View.VISIBLE
+                        binding.rvRiwayatBerlangsung.visibility = View.GONE
+                        val query1 = FirebaseFirestore.getInstance().collection("ListPesanan").whereEqualTo("uid",user?.uid).whereEqualTo("orderStatus","Pesanan Telah Selesai")
+
+                        val option1 = FirestoreRecyclerOptions.Builder<PesananModels>()
+                            .setQuery(query1, PesananModels::class.java)
+                            .build()
+
+
+                        val adapter1 = RiwayatAdapter (option1)
+
+                        binding.rvRiwayatSelesai.layoutManager = LinearLayoutManager(container?.context, LinearLayoutManager.VERTICAL ,false)
+                        binding.rvRiwayatSelesai.adapter = adapter1
+                        adapter1.startListening()
+
 //
                     }
                 }
