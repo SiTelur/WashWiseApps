@@ -11,5 +11,7 @@ data class PesananModels(
     var orderType:String? = null,
     var qty:Int? = null,
     @DocumentId var DocID:String?= null,
-    var paymentStatus:String? = null
+    var paymentStatus:String? = null,
+    var orderTotal:Int? = null,
+    var useVoucher:Boolean? = false
 )

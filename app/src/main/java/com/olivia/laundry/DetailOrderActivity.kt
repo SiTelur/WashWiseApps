@@ -6,11 +6,13 @@ import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.olivia.laundry.databinding.ActivityDetailOrderBinding
 import com.olivia.laundry.fragment.LacakPesananFragment
+import com.olivia.laundry.models.ProgressModels
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -29,6 +31,8 @@ class DetailOrderActivity : AppCompatActivity() {
             WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
 
         var qty =0.0
+        var voucherNow = 0
+        var menggunakanVoucher:Boolean? = false
         auth = FirebaseAuth.getInstance()
 
         binding.textView15.text = intent.extras!!.getString("DocID")
@@ -57,13 +61,26 @@ class DetailOrderActivity : AppCompatActivity() {
             getAlamat?.get()?.addOnSuccessListener { address ->
                 Log.d("DetailOrderActivity", "onCreate: ${address.getString("address")}")
                 binding.textView19.text = address.getString("address")
+                voucherNow = Integer.parseInt(address.get("voucher").toString())
 
             }
 
             val getPesanan = db.collection("ListPesanan").document(binding.textView15.text.toString())
             getPesanan.get().addOnSuccessListener {
                 binding.Status.text = it.getString("orderStatus")
-                binding.textView62.text = "${it.get("qty").toString()}"
+                menggunakanVoucher = it.getBoolean("useVoucher")
+
+                when (it.getString("orderStatus")){
+                    "Pesanan Siap Dikirim" ->  binding.button.text = "Bayar"
+                    "Pesanan Telah Dikirim" -> binding.button.text = "Selesai"
+                }
+
+//                if (it.getString("orderStatus").equals("Pesanan Siap Dikirim") || it.getString("orderStatus").equals("Pesanan Telah Dikirim") || it.getString("orderStatus").equals("Pesanan Telah Selesai")){
+//                    binding.button.text = "Selesai"
+//                }else{
+//                    binding.button.text = "Bayar"
+//                }
+                binding.textView62.text = it.get("qty").toString()
                 qty = it.getDouble("qty")!!
                 Log.d("DetailOrder", "onCreate: ${it.getString("orderStatus")}")
 
@@ -88,7 +105,8 @@ class DetailOrderActivity : AppCompatActivity() {
                     window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 }
 
-                binding.button.isEnabled = it.getString("orderStatus").equals("Pesanan Siap Dikirim")
+                binding.button.isEnabled = (it.getString("orderStatus").equals("Pesanan Siap Dikirim") || it.getString("orderStatus").equals("Pesanan Telah Dikirim"))
+
             }
             binding.rvRiwayatPengiriman.text
 
@@ -96,16 +114,33 @@ class DetailOrderActivity : AppCompatActivity() {
         }
 
         binding.button.setOnClickListener{
-            val intent = Intent(this,CheckOutActivity::class.java)
-            intent.putExtra("DocID",binding.textView15.text)
-            intent.putExtra("ServiceSatuan",binding.textView63.text)
-            intent.putExtra("BanyakService",binding.textView62.text)
-            intent.putExtra("TotalService",binding.textView23.text)
-            intent.putExtra("jumlahHargaService",binding.textView64.text)
-            intent.putExtra("UID",auth.currentUser!!.uid)
-            intent.putExtra("NamaService",namaService)
-            startActivity(intent)
-            finish()
+            when (binding.button.text){
+                "Bayar" -> {
+                    val intent = Intent(this,CheckOutActivity::class.java)
+                    intent.putExtra("DocID",binding.textView15.text)
+                    intent.putExtra("ServiceSatuan",binding.textView63.text)
+                    intent.putExtra("BanyakService",binding.textView62.text)
+                    intent.putExtra("TotalService",binding.textView23.text)
+                    intent.putExtra("jumlahHargaService",binding.textView64.text)
+                    intent.putExtra("UID",auth.currentUser!!.uid)
+                    intent.putExtra("NamaService",namaService)
+                    startActivity(intent)
+                    finish()
+                }
+                "Selesai" ->{
+                    val progressModels = ProgressModels(Timestamp.now(),"Pesanan Telah Selesai")
+                    db.collection("ListPesanan").document(binding.textView15.text.toString()).collection("progress").add(progressModels)
+                        .addOnSuccessListener { Log.d("DetailOrder", "onCreate: Berhasil MenginsertData")
+                            db.collection("ListPesanan").document(binding.textView15.text.toString()).update("orderStatus","Pesanan Telah Selesai")}
+                    Log.d("DetailOrder", "onCreate: Cek Menggunakan Voucher $menggunakanVoucher")
+                    if (menggunakanVoucher != true){
+                        db.collection("User").document(auth.currentUser!!.uid).update("voucher",voucherNow+1)
+                        Log.d("DetailOrder", "onCreate: Tambah Voucher $voucherNow ditambah menjadi ${voucherNow+1}")
+                    }
+                    finish()
+                }
+
+            }
         }
 
         binding.textView17.setOnClickListener {
@@ -140,7 +175,7 @@ class DetailOrderActivity : AppCompatActivity() {
 //    }
     fun formatter(date: Date?): String {
         val formatter = SimpleDateFormat("dd MMMM yyyy HH:mm")
-        return formatter.format(date)
+        return formatter.format(date!!)
     }
 
 }

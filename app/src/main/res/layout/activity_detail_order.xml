@@ -266,7 +266,7 @@
                         android:layout_alignBottom="@+id/textView22"
                         android:layout_marginBottom="0dp"
                         android:gravity="center"
-                        android:text="TextView"
+                        android:text="@string/total"
                         android:textSize="18sp" />
 
                     <TextView

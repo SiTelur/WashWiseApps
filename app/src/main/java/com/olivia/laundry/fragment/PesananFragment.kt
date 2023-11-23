@@ -18,6 +18,7 @@ import com.google.firebase.ktx.Firebase
 import com.olivia.laundry.adapter.PesananAdapter
 import com.olivia.laundry.databinding.FragmentPesananBinding
 import com.olivia.laundry.models.JenisPesananModels
+import com.olivia.laundry.models.PayModels
 import com.olivia.laundry.models.PesananModels
 import com.olivia.laundry.models.ProgressModels
 
@@ -45,6 +46,7 @@ class PesananFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         binding = FragmentPesananBinding.inflate(inflater)
+        var jumlahVoucher = 0
 
         val query: Query = FirebaseFirestore.getInstance().collection("JenisPesanan")
 
@@ -78,24 +80,52 @@ class PesananFragment : Fragment() {
 
             val progressModels = ProgressModels(Timestamp.now(),"Pesanan Dibuat")
 
-            if (binding.checkBox6.isChecked){
-                Log.d("PesananFragment", "onCreateView: gunakanVoucher")
-            }else{
-                Log.d("PesananFragment", "onCreateView: tidakmenggunakanVoucher")
+        val getUserVoucher = db.collection("User").document(user!!.uid)
+        getUserVoucher.addSnapshotListener{snapshot,e ->
+            jumlahVoucher = snapshot?.getLong("voucher")?.toInt()!!
+            if (e != null) {
+                Log.e("TAG", "Failed with ${e.message}.")
+                return@addSnapshotListener
             }
+            binding.checkBox6.isEnabled =
+                !((snapshot.getLong("voucher")?.toInt() != 12) || snapshot.getLong("voucher") == null)
+            binding.checkBox6.isChecked = false
+        }
+
+
+
+
 
         binding.button4.setOnClickListener {
             MaterialAlertDialogBuilder(requireContext()).apply {
                 setTitle("Apakah Pesanan Anda Benar?")
                 setMessage("Pesanan Tidak Dapat Dibatalkan")
                 setPositiveButton("Yes") { _, _ ->
-                    val pesananModels = PesananModels("Pesanan Dibuat",user?.uid,
-                        Timestamp.now(),binding.textView53.text.toString(),0)
-                    Log.d("PesananFragment", "onCreateView: $pesananModels")
-                    db.collection("ListPesanan").add(pesananModels).addOnSuccessListener {
-                        db.collection("ListPesanan").document(it.id).collection("progress").add(progressModels).addOnSuccessListener {
-                            Log.d("PesananFragment", "Berhasil Menyimpan")
-                            Toast.makeText(activity, "Anda Berhasil Pesan", Toast.LENGTH_SHORT).show()
+                    val pesananModels: PesananModels
+                    if (binding.checkBox6.isChecked){
+                        Log.d("PesananFragment", "onCreateView: gunakanVoucher")
+                        val payModels = PayModels("Voucher", "Pesanan Anda Menggunakan Voucher")
+                        pesananModels = PesananModels("Pesanan Dibuat Dengan Voucher",user.uid,  Timestamp.now(),binding.textView53.text.toString(),0,null,"Success",null,true)
+                        db.collection("ListPesanan")
+                            .add(pesananModels)
+                            .addOnSuccessListener { documentReference ->
+                                Log.d("Pesan Dengan Voucher", "DocumentSnapshot written with ID: ${documentReference.id}")
+                                db.collection("ListPesanan").document(documentReference.id).collection("Payment").document("detailPayment").set(payModels)
+                                db.collection("User").document(user.uid).update("voucher",jumlahVoucher - 12)
+                            }
+                            .addOnFailureListener { e ->
+                                Log.w("Pesan Dengan Voucher", "Error adding document", e)
+                            }
+                    }else{
+                        Log.d("PesananFragment", "onCreateView: tidakmenggunakanVoucher")
+                         pesananModels = PesananModels("Pesanan Dibuat", user.uid,
+                            Timestamp.now(),binding.textView53.text.toString(),0)
+                        Log.d("PesananFragment", "onCreateView: $pesananModels")
+                        db.collection("ListPesanan").add(pesananModels).addOnSuccessListener {
+                            db.collection("ListPesanan").document(it.id).collection("progress").add(progressModels).addOnSuccessListener {
+                                Log.d("PesananFragment", "Berhasil Menyimpan")
+                                Toast.makeText(activity, "Anda Berhasil Pesan", Toast.LENGTH_SHORT).show()
+                            }
                         }
                     }
                 }

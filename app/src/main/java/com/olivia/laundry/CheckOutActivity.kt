@@ -79,8 +79,25 @@ class CheckOutActivity : AppCompatActivity(), TransactionFinishedCallback {
 
                 "cod" -> {
                     Log.d("CheckOutActivity", "onCreate: Anda Menggunakan COD")
+                    val payModels = PayModels("COD", "Anda Menggunakan COD")
+                    val db = FirebaseFirestore.getInstance()
+                    val tambahPayment = db.collection("ListPesanan")
+                        .document(intent.extras?.getString("DocID").toString())
+                        .collection("Payment").document("detailPayment")
+                    tambahPayment.set(payModels)
+                        .addOnSuccessListener {
+                            Log.d("Payment", "onTransactionFinished: Berhasil Menyimpan")
+                        }.addOnFailureListener {
+                            Log.e("Payment", "onTransactionFinished: Gagal Menyimpan", it.cause)
+                        }
+                    ubahOrder("Success")
+                    Toast.makeText(
+                        this,
+                        "Transaction Sukses",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    openReceiptActivity()
                 }
-
                 else -> Toast.makeText(this, "Anda Harus Memilih 1 Pembayaran", Toast.LENGTH_SHORT)
                     .show()
             }
@@ -102,7 +119,7 @@ class CheckOutActivity : AppCompatActivity(), TransactionFinishedCallback {
             .setTransactionFinishedCallback(this)
             .enableLog(true)
             .setLanguage("id")
-            .setColorTheme(CustomColorTheme("#777777", "#f77474", "#3f0d0d"))
+            .setColorTheme(CustomColorTheme("#C9F2FF", "#000000", "#1C4A86"))
             .buildSDK()
 
     }
@@ -112,13 +129,6 @@ class CheckOutActivity : AppCompatActivity(), TransactionFinishedCallback {
 
             when (result.status) {
                 TransactionResult.STATUS_SUCCESS -> {
-                    Toast.makeText(
-                        this,
-                        "Transaction Sukses " + result.response.transactionId,
-                        Toast.LENGTH_LONG
-                    ).show()
-                    ubahOrder("Success")
-
                     val payModels = PayModels("QRIS", result.response.transactionId)
                     val db = FirebaseFirestore.getInstance()
                     val tambahPayment = db.collection("ListPesanan")
@@ -130,6 +140,15 @@ class CheckOutActivity : AppCompatActivity(), TransactionFinishedCallback {
                         }.addOnFailureListener {
                             Log.e("Payment", "onTransactionFinished: Gagal Menyimpan", it.cause)
                         }
+
+                    Toast.makeText(
+                        this,
+                        "Transaction Sukses " + result.response.transactionId,
+                        Toast.LENGTH_LONG
+                    ).show()
+                    ubahOrder("Success")
+
+
                 }
 
                 TransactionResult.STATUS_PENDING -> {
@@ -173,7 +192,7 @@ class CheckOutActivity : AppCompatActivity(), TransactionFinishedCallback {
         try {
 
             MidtransSDK.getInstance().transactionRequest = transactionRequest(intent!!.getStringExtra("DocID"),binding.textView36.text.toString().toDouble().toInt(), 1, intent!!.getStringExtra("NamaService"));
-            MidtransSDK.getInstance().startPaymentUiFlow(this );
+            MidtransSDK.getInstance().startPaymentUiFlow(this);
         }catch (e:Exception){
 
             Log.d("Error", "clickPay: ${binding.textView36.text.toString().toDouble()}")
@@ -216,6 +235,15 @@ class CheckOutActivity : AppCompatActivity(), TransactionFinishedCallback {
 
     override fun onStart() {
         super.onStart()
+        openReceiptActivity()
+    }
+
+    fun formatter(date: Date?): String {
+        val formatter = SimpleDateFormat("dd MMMM yyyy HH:mm")
+        return formatter.format(date!!)
+    }
+
+    fun openReceiptActivity(){
         val db = FirebaseFirestore.getInstance()
         db.collection("ListPesanan").document(intent.extras?.getString("DocID").toString()).get()
             .addOnSuccessListener {
@@ -239,11 +267,6 @@ class CheckOutActivity : AppCompatActivity(), TransactionFinishedCallback {
                 }
             }
 
-    }
-
-    fun formatter(date: Date?): String {
-        val formatter = SimpleDateFormat("dd MMMM yyyy HH:mm")
-        return formatter.format(date!!)
     }
 
 

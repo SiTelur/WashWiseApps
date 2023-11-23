@@ -10,6 +10,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.olivia.laundry.KalkulatorActivity
 import com.olivia.laundry.LoginActivity
 import com.olivia.laundry.MainActivity
 import com.olivia.laundry.R
@@ -56,9 +57,13 @@ class UserFragment : Fragment() {
                 R.id.userLogOut -> {
                     auth.signOut()
                     startActivity(Intent(activity, LoginActivity::class.java))
-                    activity!!.finish()
-                    return@setOnMenuItemClickListener true
+                    requireActivity().finish()
+                    true
 
+                }
+                R.id.userKalkulator ->{
+                    startActivity(Intent(requireActivity(),KalkulatorActivity::class.java))
+                    true
                 }
 
                 else -> {return@setOnMenuItemClickListener false}
