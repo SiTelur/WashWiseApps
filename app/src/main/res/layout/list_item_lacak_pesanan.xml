@@ -19,17 +19,11 @@
             android:id="@+id/textView25"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
+            android:layout_alignParentTop="false"
+            android:layout_centerVertical="true"
             android:layout_toEndOf="@+id/textDate"
             android:text="TextView"
             android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/textView27"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textView25"
-            android:layout_alignStart="@+id/textView25"
-            android:text="TextView" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

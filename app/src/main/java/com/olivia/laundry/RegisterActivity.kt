@@ -75,10 +75,7 @@ class RegisterActivity : AppCompatActivity() {
                         displayName = binding.txtNama.text.toString()
                     }
 
-                    val user = Firebase.auth.currentUser
-                    user!!.updateProfile(profileUpdate).addOnSuccessListener {
-                        Log.d(TAG, "User profile updated.")
-                    }
+
 
                     val usersModels = UsersModels(binding.txtNama.text.toString(),null,binding.txtNomerTelepon.text.toString())
                     auth.currentUser?.let { it1 -> db.collection("User").document(it1.uid).set(usersModels) }
@@ -87,6 +84,12 @@ class RegisterActivity : AppCompatActivity() {
                     Toast.makeText(this, "Berhasil Registrasi", Toast.LENGTH_SHORT).show()
                     binding.progressBar2.visibility = View.GONE;
                     window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                    val user = Firebase.auth.currentUser
+                    user!!.updateProfile(profileUpdate).addOnSuccessListener {
+                        Log.d(TAG, "User profile updated.")
+                    }
+
                     startActivity(Intent(this,MainActivity::class.java))
                     finish()
                 }

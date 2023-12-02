@@ -1,5 +1,6 @@
 package com.olivia.laundry.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,10 +12,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.Timestamp
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
 import com.google.firebase.ktx.Firebase
+import com.olivia.laundry.MainActivity
 import com.olivia.laundry.adapter.PesananAdapter
 import com.olivia.laundry.databinding.FragmentPesananBinding
 import com.olivia.laundry.models.JenisPesananModels
@@ -40,6 +44,8 @@ class PesananFragment : Fragment() {
     }
 
     lateinit var binding: FragmentPesananBinding
+     var registration: ListenerRegistration? = null
+    private lateinit var auth: FirebaseAuth
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -49,6 +55,7 @@ class PesananFragment : Fragment() {
         var jumlahVoucher = 0
 
         val query: Query = FirebaseFirestore.getInstance().collection("JenisPesanan")
+        auth = FirebaseAuth.getInstance()
 
 
         val option = FirestoreRecyclerOptions.Builder<JenisPesananModels>()
@@ -81,14 +88,20 @@ class PesananFragment : Fragment() {
             val progressModels = ProgressModels(Timestamp.now(),"Pesanan Dibuat")
 
         val getUserVoucher = db.collection("User").document(user!!.uid)
-        getUserVoucher.addSnapshotListener{snapshot,e ->
-            jumlahVoucher = snapshot?.getLong("voucher")?.toInt()!!
+        registration = getUserVoucher.addSnapshotListener{snapshot,e ->
+
             if (e != null) {
                 Log.e("TAG", "Failed with ${e.message}.")
                 return@addSnapshotListener
             }
+
+            if(snapshot == null) {
+                // Handle case of no data yet
+                return@addSnapshotListener
+            }
+            jumlahVoucher = snapshot.getLong("voucher")?.toInt()!!
             binding.checkBox6.isEnabled =
-                !((snapshot.getLong("voucher")?.toInt() != 12) || snapshot.getLong("voucher") == null)
+                ((snapshot.getLong("voucher")?.toInt()!! >= 12) || snapshot.getLong("voucher") == null)
             binding.checkBox6.isChecked = false
         }
 
@@ -101,33 +114,42 @@ class PesananFragment : Fragment() {
                 setTitle("Apakah Pesanan Anda Benar?")
                 setMessage("Pesanan Tidak Dapat Dibatalkan")
                 setPositiveButton("Yes") { _, _ ->
-                    val pesananModels: PesananModels
-                    if (binding.checkBox6.isChecked){
-                        Log.d("PesananFragment", "onCreateView: gunakanVoucher")
-                        val payModels = PayModels("Voucher", "Pesanan Anda Menggunakan Voucher")
-                        pesananModels = PesananModels("Pesanan Dibuat Dengan Voucher",user.uid,  Timestamp.now(),binding.textView53.text.toString(),0,null,"Success",null,true)
-                        db.collection("ListPesanan")
-                            .add(pesananModels)
-                            .addOnSuccessListener { documentReference ->
-                                Log.d("Pesan Dengan Voucher", "DocumentSnapshot written with ID: ${documentReference.id}")
-                                db.collection("ListPesanan").document(documentReference.id).collection("Payment").document("detailPayment").set(payModels)
-                                db.collection("User").document(user.uid).update("voucher",jumlahVoucher - 12)
-                            }
-                            .addOnFailureListener { e ->
-                                Log.w("Pesan Dengan Voucher", "Error adding document", e)
-                            }
-                    }else{
-                        Log.d("PesananFragment", "onCreateView: tidakmenggunakanVoucher")
-                         pesananModels = PesananModels("Pesanan Dibuat", user.uid,
-                            Timestamp.now(),binding.textView53.text.toString(),0)
-                        Log.d("PesananFragment", "onCreateView: $pesananModels")
-                        db.collection("ListPesanan").add(pesananModels).addOnSuccessListener {
-                            db.collection("ListPesanan").document(it.id).collection("progress").add(progressModels).addOnSuccessListener {
-                                Log.d("PesananFragment", "Berhasil Menyimpan")
-                                Toast.makeText(activity, "Anda Berhasil Pesan", Toast.LENGTH_SHORT).show()
+                    var pesananModels: PesananModels
+                    db.collection("User").document(auth.currentUser?.uid!!)
+                        .get().addOnSuccessListener {
+                            if (it.getGeoPoint("coordinatePoint") != null){
+                                if (binding.checkBox6.isChecked){
+                                    Log.d("PesananFragment", "onCreateView: gunakanVoucher")
+                                    val payModels = PayModels("Voucher", "Pesanan Anda Menggunakan Voucher")
+                                    pesananModels = PesananModels("Pesanan Dibuat Dengan Voucher",user.uid,  Timestamp.now(),binding.textView53.text.toString(),0,null,"Success",null,true)
+                                    db.collection("ListPesanan")
+                                        .add(pesananModels)
+                                        .addOnSuccessListener { documentReference ->
+                                            Log.d("Pesan Dengan Voucher", "DocumentSnapshot written with ID: ${documentReference.id}")
+                                            db.collection("ListPesanan").document(documentReference.id).collection("Payment").document("detailPayment").set(payModels)
+                                            db.collection("User").document(user.uid).update("voucher",jumlahVoucher - 12)
+                                        }
+                                        .addOnFailureListener { e ->
+                                            Log.w("Pesan Dengan Voucher", "Error adding document", e)
+                                        }
+                                }else{
+                                        Log.d("PesananFragment", "onCreateView: tidakmenggunakanVoucher")
+                                        pesananModels = PesananModels("Pesanan Dibuat", user.uid,
+                                            Timestamp.now(),binding.textView53.text.toString(),0)
+                                        Log.d("PesananFragment", "onCreateView: $pesananModels")
+                                        db.collection("ListPesanan").add(pesananModels).addOnSuccessListener {
+                                            db.collection("ListPesanan").document(it.id).collection("progress").add(progressModels).addOnSuccessListener {
+                                                Log.d("PesananFragment", "Berhasil Menyimpan")
+                                                Toast.makeText(activity, "Anda Berhasil Pesan", Toast.LENGTH_SHORT).show()
+                                            }
+                                        }
+                                }
+                            }else{
+                                Toast.makeText(activity, "Anda Harus Menambahkan Lokasi Terkini", Toast.LENGTH_SHORT).show()
                             }
                         }
-                    }
+                        .addOnFailureListener { Log.e("PesananFragment", "checkAlamat: gagal mendapatkan data",it) }
+
                 }
                     setNegativeButton("No", null)
                     show()
@@ -162,5 +184,19 @@ class PesananFragment : Fragment() {
             fragment.arguments = args
             return fragment
         }
+    }
+
+    fun checkAlamat():Boolean{
+        var kondisi:Boolean = false
+        val user = FirebaseAuth.getInstance().currentUser!!.uid
+        val db = FirebaseFirestore.getInstance()
+        db.collection("User").document(user)
+            .get().addOnSuccessListener {
+                val kondisiAsli = it.getGeoPoint("coordinatePoint") != null
+                kondisi = it.getGeoPoint("coordinatePoint") != null
+                Toast.makeText(activity, "Anda Harus Mengisi Lokasi Terkini", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener { Log.e("PesananFragment", "checkAlamat: gagal mendapatkan data",it) }
+        return kondisi
     }
 }

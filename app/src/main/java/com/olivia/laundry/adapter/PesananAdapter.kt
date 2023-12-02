@@ -27,23 +27,23 @@ class PesananAdapter(option:FirestoreRecyclerOptions<JenisPesananModels>): Fires
     override fun onBindViewHolder(holder: ViewHolder, position: Int, model: JenisPesananModels) {
         with(holder){
 
-            binding.eta.text = model.ETA
-            binding.jenis3.text = model.HargaPerKilo.toString()
-            binding.jenis.text = model.Jenis
+            binding.eta.text = model.eta
+            binding.jenis3.text = model.hargaPerKilo.toString()
+            binding.jenis.text = model.jenis
 
             val modelItem = getItem(position)
 
             binding.checkBox.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
                     if (selections.size < 1) {
-                        modelItem.Jenis?.let { selections.add(it) }
-                        listener?.onCheckboxClicked(modelItem.HargaPerKilo,model.id)
+                        modelItem.jenis?.let { selections.add(it) }
+                        listener?.onCheckboxClicked(modelItem.hargaPerKilo,model.id)
                     } else {
                         binding.checkBox.isChecked = false
                         // Show snackbar that max selections reached
                     }
                 } else {
-                    selections.remove(modelItem.Jenis)
+                    selections.remove(modelItem.jenis)
                     listener?.onCheckboxClicked(0,null)
                 }
 

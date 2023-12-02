@@ -37,7 +37,7 @@ class KalkulatorActivity : AppCompatActivity(),AdapterView.OnItemSelectedListene
         subjectsRef.get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 for (document in task.result) {
-                    val subject = document.getString("Jenis")
+                    val subject = document.getString("jenis")
                     subjects.add(subject)
                 }
                 adapter.notifyDataSetChanged()
@@ -55,9 +55,11 @@ class KalkulatorActivity : AppCompatActivity(),AdapterView.OnItemSelectedListene
 
             }
             override fun afterTextChanged(p0: Editable?) {
-                binding.txtPassword.setText(
-                    (Integer.parseInt(binding.Status.text.toString())
-                        .toDouble() * harga).toString())
+                if ((binding.Status.text).toString() == ""){
+                    binding.txtPassword.text = p0
+                }else{
+                    binding.txtPassword.setText((binding.Status.text.toString().toDouble() * harga).toString())
+                }
             }
         })
     }
@@ -65,13 +67,13 @@ class KalkulatorActivity : AppCompatActivity(),AdapterView.OnItemSelectedListene
     override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
         Log.d("Kalkulator", "onItemSelected: ${subjects[p2]}")
         val db = FirebaseFirestore.getInstance()
-        val cari = db.collection("JenisPesanan").whereEqualTo("Jenis", subjects[p2])
+        val cari = db.collection("JenisPesanan").whereEqualTo("jenis", subjects[p2])
         cari.get()
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     for (document in it.result) {
-                        Log.d("Kalkulator", document.get("HargaPerKilo").toString());
-                        harga = document.getDouble("HargaPerKilo")!!
+                        Log.d("Kalkulator", document.get("hargaPerKilo").toString());
+                        harga = document.getDouble("hargaPerKilo")!!
                     }
                 } else {
                     Log.e("Kalkulator", "onItemSelected: gagal", it.exception)

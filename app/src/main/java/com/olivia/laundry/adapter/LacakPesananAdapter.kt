@@ -9,6 +9,7 @@ import com.google.firebase.Timestamp
 import com.olivia.laundry.databinding.ListItemLacakPesananBinding
 import com.olivia.laundry.models.ProgressModels
 import java.text.SimpleDateFormat
+import java.util.Date
 
 class LacakPesananAdapter(option:FirestoreRecyclerOptions<ProgressModels>):
     FirestoreRecyclerAdapter<ProgressModels, LacakPesananAdapter.ViewHolder>(option) {
@@ -22,11 +23,12 @@ class LacakPesananAdapter(option:FirestoreRecyclerOptions<ProgressModels>):
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int, model: ProgressModels) {
         with(holder){
-            binding.textDate.text = formatter(model.progressDate)
+            binding.textDate.text = formatter(model.progressDate!!.toDate())
+            binding.textView25.text = model.activity
         }
     }
 
-    fun formatter(date: Timestamp): String {
+    fun formatter(date: Date): String {
         val formatter = SimpleDateFormat("dd MMMM yyyy HH:mm")
         return formatter.format(date)
     }

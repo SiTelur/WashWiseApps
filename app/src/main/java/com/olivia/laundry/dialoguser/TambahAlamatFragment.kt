@@ -1,11 +1,14 @@
 package com.olivia.laundry.dialoguser
 
+import android.app.Activity
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
@@ -52,6 +55,7 @@ class TambahAlamatFragment : DialogFragment() {
     ): View {
         binding = FragmentTambahAlamatBinding.inflate(inflater)
         binding.editTextText.setText(mParam1.toString())
+        verifyStoragePermissions(activity)
         val db = Firebase.firestore
         initializeMaps()
         auth = Firebase.auth
@@ -66,19 +70,20 @@ class TambahAlamatFragment : DialogFragment() {
 
         if (!mLocationOverlay.isMyLocationEnabled) {
             mapController.setZoom(5.0)
+            mLocationOverlay.runOnFirstFix {
+                mLocationOverlay.lastFix
+                binding.mapView.controller.setCenter(mLocationOverlay.myLocation)
+                Log.d("Location", "onCreateView: ${mLocationOverlay.myLocation}")
+
+            }
+
         } else {
             mapController.setZoom(15.0)
         }
         var geoPoint: com.google.firebase.firestore.GeoPoint? = null
 
-        mLocationOverlay.runOnFirstFix {
-            mLocationOverlay.lastFix
-            binding.mapView.controller.setCenter(mLocationOverlay.myLocation)
-            Log.d("Location", "onCreateView: ${mLocationOverlay.myLocation}")
 
-        }
         Log.d("LocationDiterima", "onCreateView: $geoPoint")
-
 
 
         binding.mapView.overlays.add(mLocationOverlay)
@@ -86,14 +91,15 @@ class TambahAlamatFragment : DialogFragment() {
         binding.mapView.invalidate()
 
 
-        binding.toolbar.setOnMenuItemClickListener {
 
+        binding.toolbar.setOnMenuItemClickListener {
+            if (binding.editTextText.text.equals("null")) {
+                Toast.makeText(context, "Anda Belum Mengisi Detail Alamat", Toast.LENGTH_SHORT).show()
+                return@setOnMenuItemClickListener true
+            }
 
             when (it.itemId) {
                 R.id.saveLocation -> {
-                    if (binding.editTextText.text.isEmpty()) {
-                        return@setOnMenuItemClickListener false
-                    }
                     geoPoint = com.google.firebase.firestore.GeoPoint(
                         mLocationOverlay.myLocation.latitude,
                         mLocationOverlay.myLocation.longitude
@@ -103,19 +109,18 @@ class TambahAlamatFragment : DialogFragment() {
                         "address" to alamatModels.address,
                         "coordinatePoint" to alamatModels.coordinatePoint
                     )
-
-                    auth.currentUser?.uid?.let { it1 ->
-                        db.collection("User").document(it1).update(update).addOnSuccessListener {
-                        }.addOnFailureListener {
-                            Log.d("UpdateData", "Berhasil")
-                        }.addOnFailureListener {
-                            Log.d("UpdateData", "Gagal")
+                        auth.currentUser?.uid?.let { it1 ->
+                            db.collection("User").document(it1).update(update).addOnSuccessListener {
+                            }.addOnFailureListener {
+                                Log.d("UpdateData", "Berhasil")
+                            }.addOnFailureListener {
+                                Log.d("UpdateData", "Gagal")
+                            }
                         }
-                    }
-                    Log.d("LocationDikirim", "onCreateView: $geoPoint")
-                    dismiss()
+                        Log.d("LocationDikirim", "onCreateView: $geoPoint")
+                        dismiss()
+                        return@setOnMenuItemClickListener true
 
-                    return@setOnMenuItemClickListener true
                 }
 
                 else -> {
@@ -125,6 +130,7 @@ class TambahAlamatFragment : DialogFragment() {
         }
 
         binding.toolbar.setNavigationOnClickListener {
+
             dismiss()
         }
         // Inflate the layout for this fragment
@@ -170,5 +176,23 @@ class TambahAlamatFragment : DialogFragment() {
         )
     }
 
-
+    private val REQUEST_GPS = 1
+    private val PERMISSIONS_STORAGE = arrayOf(
+        android.Manifest.permission.ACCESS_COARSE_LOCATION,
+        android.Manifest.permission.ACCESS_FINE_LOCATION
+    )
+    private fun verifyStoragePermissions(activity: Activity?) {
+        // Check if we have write permission
+        val permission = ActivityCompat.checkSelfPermission(
+            requireActivity(),
+            android.Manifest.permission.ACCESS_FINE_LOCATION
+        )
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                PERMISSIONS_STORAGE, REQUEST_GPS
+            )
+        }
+    }
 }

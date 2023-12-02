@@ -58,6 +58,9 @@ class ChangePasswordFragment : DialogFragment() {
                 .addOnSuccessListener {
                     Log.d("ChangePass", "Berhasil Mengganti Password")
                 }
+                .addOnFailureListener {
+                    Log.e("ChangePass", "onCreateView: Gagal",it)
+                }
 
             dismiss()
         }
