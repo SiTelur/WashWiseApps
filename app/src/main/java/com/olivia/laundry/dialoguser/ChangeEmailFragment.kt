@@ -6,6 +6,7 @@ import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -47,11 +48,17 @@ class ChangeEmailFragment : DialogFragment() {
                 return@setOnClickListener
             }
 
+
             user!!.updateEmail(binding.editTextTextEmailAddress.text.toString())
                 .addOnSuccessListener {
                     Log.d("ChangeEmail", "Email has been change.")
+                    Toast.makeText(requireContext(), "Berhasil Mengubah Email", Toast.LENGTH_SHORT).show()
+                    dismiss()
                 }
-            dismiss()
+                .addOnFailureListener {
+                    Log.e("ChangeEmail", "onCreateView: Gagal",it)
+                }
+
         }
 
         binding.toolbar2.setNavigationOnClickListener {

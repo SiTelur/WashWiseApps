@@ -29,7 +29,7 @@ class HomeAdapter(options: FirestoreRecyclerOptions<PesananModels>) :
             val task = documentReference?.get()
             task?.addOnSuccessListener { document ->
                 // Get the document data
-                binding.txtpesanan.text = document.getString("Jenis")
+                binding.txtpesanan.text = document.getString("jenis")
                 // Do something with the document data
             }
             binding.textView10.text = model.orderStatus

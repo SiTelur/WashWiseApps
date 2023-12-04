@@ -11,16 +11,21 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.olivia.laundry.KalkulatorActivity
+import com.olivia.laundry.MainActivity
 import com.olivia.laundry.R
 import com.olivia.laundry.adapter.HomeAdapter
 import com.olivia.laundry.databinding.FragmentHomeBinding
 import com.olivia.laundry.models.PesananModels
+import com.olivia.laundry.models.UsersModels
 
 /**
  * A simple [Fragment] subclass.
@@ -40,6 +45,9 @@ class HomeFragment : Fragment() {
         }
     }
 private lateinit var binding: FragmentHomeBinding
+     var registration: ListenerRegistration? = null
+    lateinit var auth:FirebaseAuth
+    var voucher:Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,7 +56,7 @@ private lateinit var binding: FragmentHomeBinding
         binding = FragmentHomeBinding.inflate(inflater)
         binding.userName.text
         val db = FirebaseFirestore.getInstance()
-
+auth = FirebaseAuth.getInstance()
         val user = Firebase.auth.currentUser
         binding.userName.text = user?.displayName
         Log.d("HomeFragment", "onCreateView: ${user?.displayName}")
@@ -59,10 +67,25 @@ private lateinit var binding: FragmentHomeBinding
         }
         val query = FirebaseFirestore.getInstance().collection("ListPesanan").whereEqualTo("uid",user?.uid).whereNotEqualTo("orderStatus","Pesanan Telah Selesai")
 
-        db.collection("User").document(user!!.uid).addSnapshotListener{ snapshot, _ ->
-            binding.progressBar4.setProgress(((snapshot!!.get("voucher").toString().toDouble() / 12 * 100).toInt()),true)
+
+
+
+        registration = db.collection("User").document(user?.uid.toString()).addSnapshotListener{ snapshot, _ ->
+            if(snapshot == null) {
+                // Handle case of no data yet
+                return@addSnapshotListener
+            }
+
+            binding.progressBar4.setProgress(((snapshot.get("voucher").toString().toDouble() / 12 * 100).toInt()),true)
+            if (snapshot.get("voucher").toString().toDouble() >= 12.0){
+                binding.textView71.text = "Voucher Anda Siap Digunakan"
+            }else{
+                binding.textView71.text = "Voucher Anda Sekarang ${snapshot!!.get("voucher").toString()} Kurang ${(12 - snapshot!!.get("voucher").toString().toDouble()).toInt()} Lagi"
+            }
         }
-        binding.progressBar4.setProgress(20,true)
+
+
+//        binding.progressBar4.setProgress(20,true)
 
         val option = FirestoreRecyclerOptions.Builder<PesananModels>()
             .setQuery(query,PesananModels::class.java)

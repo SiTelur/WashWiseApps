@@ -14,8 +14,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.olivia.laundry.adapter.RiwayatAdapter
 import com.olivia.laundry.databinding.FragmentRiwayatBinding
-import com.olivia.laundry.fragment.riwayat.BerlangsungFragment
-import com.olivia.laundry.fragment.riwayat.SelesaiFragment
 import com.olivia.laundry.models.PesananModels
 
 
@@ -48,14 +46,14 @@ binding.tabLayout
         binding.rvRiwayatSelesai.visibility = View.GONE
         binding.rvRiwayatBerlangsung.visibility = View.VISIBLE
 
-        val query = FirebaseFirestore.getInstance().collection("ListPesanan").whereEqualTo("uid",user?.uid).whereNotEqualTo("orderStatus","Pesanan Telah Selesai")
+        val query = FirebaseFirestore.getInstance().collection("ListPesanan").whereEqualTo("uid",user!!.uid).whereNotEqualTo("orderStatus","Pesanan Telah Selesai")
 
         val option = FirestoreRecyclerOptions.Builder<PesananModels>()
             .setQuery(query, PesananModels::class.java)
             .build()
 
 
-        val adapter = RiwayatAdapter (option)
+        val adapter = RiwayatAdapter(option)
 
         binding.rvRiwayatBerlangsung.layoutManager = LinearLayoutManager(container?.context, LinearLayoutManager.VERTICAL ,false)
         binding.rvRiwayatBerlangsung.adapter = adapter
@@ -81,7 +79,9 @@ binding.tabLayout
                     1 -> {
                         binding.rvRiwayatSelesai.visibility = View.VISIBLE
                         binding.rvRiwayatBerlangsung.visibility = View.GONE
-                        val query1 = FirebaseFirestore.getInstance().collection("ListPesanan").whereEqualTo("uid",user?.uid).whereEqualTo("orderStatus","Pesanan Telah Selesai")
+                        val query1 = FirebaseFirestore.getInstance().collection("ListPesanan").whereEqualTo("uid",
+                            user.uid
+                        ).whereEqualTo("orderStatus","Pesanan Telah Selesai")
 
                         val option1 = FirestoreRecyclerOptions.Builder<PesananModels>()
                             .setQuery(query1, PesananModels::class.java)

@@ -114,12 +114,12 @@ class CheckOutActivity : AppCompatActivity(), TransactionFinishedCallback {
     private fun makePayment() {
         SdkUIFlowBuilder.init()
             .setContext(this)
-            .setMerchantBaseUrl("https://midtranspayment-d951ab6723b0.herokuapp.com/index.php/")
+            .setMerchantBaseUrl(BuildConfig.BASE_URL)
             .setClientKey(BuildConfig.CLIENT_KEY)
             .setTransactionFinishedCallback(this)
             .enableLog(true)
             .setLanguage("id")
-            .setColorTheme(CustomColorTheme("#C9F2FF", "#000000", "#1C4A86"))
+            .setColorTheme(CustomColorTheme("#1C4A86", "#000000", "#1C4A86"))
             .buildSDK()
 
     }
@@ -190,7 +190,6 @@ class CheckOutActivity : AppCompatActivity(), TransactionFinishedCallback {
 
     private fun clickPay() {
         try {
-
             MidtransSDK.getInstance().transactionRequest = transactionRequest(intent!!.getStringExtra("DocID"),binding.textView36.text.toString().toDouble().toInt(), 1, intent!!.getStringExtra("NamaService"));
             MidtransSDK.getInstance().startPaymentUiFlow(this);
         }catch (e:Exception){
@@ -243,7 +242,7 @@ class CheckOutActivity : AppCompatActivity(), TransactionFinishedCallback {
         return formatter.format(date!!)
     }
 
-    fun openReceiptActivity(){
+    private fun openReceiptActivity(){
         val db = FirebaseFirestore.getInstance()
         db.collection("ListPesanan").document(intent.extras?.getString("DocID").toString()).get()
             .addOnSuccessListener {

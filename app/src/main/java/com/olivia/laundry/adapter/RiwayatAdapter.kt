@@ -3,16 +3,13 @@ package com.olivia.laundry.adapter
 import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.FirebaseFirestore
 import com.olivia.laundry.DetailOrderActivity
-import com.olivia.laundry.R
 import com.olivia.laundry.databinding.RiwayatPemesananListBinding
 import com.olivia.laundry.models.PesananModels
 import java.text.SimpleDateFormat
@@ -36,7 +33,7 @@ class RiwayatAdapter(option: FirestoreRecyclerOptions<PesananModels>):
             val task = documentReference?.get()
             task?.addOnSuccessListener { document ->
                 // Get the document data
-                binding.textView56.text = document.getString("Jenis")
+                binding.textView56.text = document.getString("jenis")
                 // Do something with the document data
             }
 

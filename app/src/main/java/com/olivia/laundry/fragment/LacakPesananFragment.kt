@@ -10,10 +10,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-import com.olivia.laundry.R
+import com.olivia.laundry.adapter.LacakPesananAdapter
 import com.olivia.laundry.adapter.RiwayatAdapter
 import com.olivia.laundry.databinding.FragmentLacakPesananBinding
-import com.olivia.laundry.models.PesananModels
 import com.olivia.laundry.models.ProgressModels
 
 // TODO: Rename parameter arguments, choose names that match
@@ -37,29 +36,26 @@ class LacakPesananFragment : DialogFragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
-        setStyle(STYLE_NORMAL, R.style.AppTheme_FullScreenDialog);
+
     }
     lateinit var binding: FragmentLacakPesananBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentLacakPesananBinding.inflate(inflater)
 
-        val query =
-            param1?.let {
-                FirebaseFirestore.getInstance().collection("ListPesanan").document(it).collection("progress").orderBy("progressDate",
-                    Query.Direction.ASCENDING)
-            }
-        val option = FirestoreRecyclerOptions.Builder<ProgressModels>()
-            .setQuery(query!!, ProgressModels::class.java)
+        val query = FirebaseFirestore.getInstance().collection("ListPesanan").document(param1.toString()).collection("progress").orderBy("progressDate",
+            Query.Direction.DESCENDING)
+        val option =  FirestoreRecyclerOptions.Builder<ProgressModels>()
+            .setQuery(query, ProgressModels::class.java)
             .build()
 
-//        val adapter = RiwayatAdapter(option)
-//        binding.rvLacakPesanan.layoutManager = LinearLayoutManager(container?.context, LinearLayoutManager.VERTICAL ,false)
-//        binding.rvLacakPesanan.adapter = adapter
-//        adapter.startListening()
+        val adapter = LacakPesananAdapter(option)
+        binding.rvLacakPesanan.layoutManager = LinearLayoutManager(container?.context, LinearLayoutManager.VERTICAL ,false)
+        binding.rvLacakPesanan.adapter = adapter
+        adapter.startListening()
 
         return binding.root
     }

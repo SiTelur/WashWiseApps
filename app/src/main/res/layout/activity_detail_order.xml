@@ -169,7 +169,8 @@
                         android:id="@+id/divider2"
                         android:layout_width="match_parent"
                         android:layout_height="2dp"
-                        android:layout_below="@+id/checkBox5"
+                        android:layout_below="@+id/textView55"
+                        android:layout_marginTop="20dp"
                         android:background="@drawable/div_putus" />
 
                     <TextView
@@ -237,6 +238,15 @@
                         android:textSize="12sp" />
 
                     <TextView
+                        android:id="@+id/textView72"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/textView55"
+                        android:layout_alignEnd="@+id/textView64"
+                        android:text="@android:string/yes"
+                        android:textSize="12sp" />
+
+                    <TextView
                         android:id="@+id/textView21"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -285,22 +295,10 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/textView32"
                         android:layout_alignStart="@+id/textView32"
-                        android:layout_alignEnd="@+id/textView32"
-                        android:layout_alignBottom="@+id/checkBox5"
-                        android:layout_marginTop="1dp"
+                        android:layout_marginTop="8dp"
                         android:gravity="center|start"
-                        android:text="Menggunakan Kupon"
+                        android:text="Menggunakan Voucher"
                         android:textSize="12sp" />
-
-                    <CheckBox
-                        android:id="@+id/checkBox5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/textView20"
-                        android:layout_alignEnd="@+id/textView20"
-                        android:layout_marginTop="1dp"
-                        android:layout_marginEnd="0dp"
-                        android:editable="true" />
 
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>

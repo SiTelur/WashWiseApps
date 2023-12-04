@@ -47,8 +47,7 @@ class DetailOrderActivity : AppCompatActivity() {
                 for (document in it.result) {
                     Log.d("TAG", "Document Id: " + document.id)
                     binding.rvRiwayatPengiriman.text = document.getString("activity")
-                    binding.textView54.text =
-                        document.getTimestamp("progressDate")?.toDate().toString()
+                    binding.textView54.text = formatter(document.getTimestamp("progressDate")?.toDate())
 
                 }
             }
@@ -75,6 +74,12 @@ class DetailOrderActivity : AppCompatActivity() {
                     "Pesanan Telah Dikirim" -> binding.button.text = "Selesai"
                 }
 
+                if (menggunakanVoucher == true){
+                    binding.textView72.text = "Iya"
+                }else{
+                    binding.textView72.text = "Tidak"
+                }
+
 //                if (it.getString("orderStatus").equals("Pesanan Siap Dikirim") || it.getString("orderStatus").equals("Pesanan Telah Dikirim") || it.getString("orderStatus").equals("Pesanan Telah Selesai")){
 //                    binding.button.text = "Selesai"
 //                }else{
@@ -88,8 +93,8 @@ class DetailOrderActivity : AppCompatActivity() {
                     it.getString("orderType")
                         ?.let { it1 -> db.collection("JenisPesanan").document(it1) }
                 getJenisPesanan?.get()?.addOnSuccessListener { jenisPesanan ->
-                    binding.textView63.text = jenisPesanan.get("HargaPerKilo").toString()
-                    namaService = jenisPesanan.getString("Jenis").toString()
+                    binding.textView63.text = jenisPesanan.get("hargaPerKilo").toString()
+                    namaService = jenisPesanan.getString("jenis").toString()
                     if (binding.textView62.text == "0"){
                         binding.textView64.text = "Berat Belum Dihitung"
                     }else{

@@ -9,10 +9,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.olivia.laundry.R
-import com.olivia.laundry.databinding.FragmentChangeEmailBinding
 import com.olivia.laundry.databinding.FragmentChangePasswordBinding
 
 /**
@@ -33,33 +33,60 @@ class ChangePasswordFragment : DialogFragment() {
         setStyle(STYLE_NORMAL, R.style.AppTheme_FullScreenDialog);
     }
     lateinit var binding: FragmentChangePasswordBinding
+    lateinit var auth:FirebaseAuth
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
         binding = FragmentChangePasswordBinding.inflate(inflater)
-
+        auth = FirebaseAuth.getInstance()
         binding.checkBox4.setOnCheckedChangeListener { _, isChecked -> // If the checkbox is checked, show the password.
             // Otherwise, hide the password.
             binding.editTextTextPassword2.transformationMethod = if (isChecked) null else PasswordTransformationMethod.getInstance()
+            binding.editTextPasswordSekarang.transformationMethod = if (isChecked) null else PasswordTransformationMethod.getInstance()
             binding.editTextTextPassword2.clearFocus()
         }
 
+
+
         binding.button5.setOnClickListener {
+
             if (binding.editTextTextPassword2.length() < 6){
+                Toast.makeText(activity, "Password Harus Lebih Dari 6 Karakter", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            val user = Firebase.auth.currentUser
-            val newPassword = binding.editTextTextPassword2.text.toString()
+            if (binding.editTextPasswordSekarang.text.isEmpty() || binding.editTextEmail.text.isEmpty()){
+                Toast.makeText(activity, "Anda Harus Memasukkan Email Dan Password", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
-            user!!.updatePassword(newPassword)
-                .addOnSuccessListener {
-                    Log.d("ChangePass", "Berhasil Mengganti Password")
-                }
+            auth.signInWithEmailAndPassword(binding.editTextEmail.text.toString(),
+                binding.editTextPasswordSekarang.text.toString()
+            ).addOnSuccessListener {
 
-            dismiss()
+
+                val user = Firebase.auth.currentUser
+                val newPassword = binding.editTextTextPassword2.text.toString()
+
+
+                user!!.updatePassword(newPassword)
+                    .addOnSuccessListener {
+                        Log.d("ChangePass", "Berhasil Mengganti Password")
+                        Toast.makeText(activity, "Anda Berhasil Mengubah Password Anda", Toast.LENGTH_SHORT).show()
+                    }
+                    .addOnFailureListener {
+                        Log.e("ChangePass", "onCreateView: Gagal",it)
+                    }
+
+                dismiss()
+
+            }.addOnFailureListener{
+                    Toast.makeText(activity, "Password Lama Anda Salah", Toast.LENGTH_SHORT).show()
+                    
+            }
+            Toast.makeText(activity, "Password Anda Salah", Toast.LENGTH_SHORT).show()
         }
 
         binding.toolbar2.setNavigationOnClickListener {

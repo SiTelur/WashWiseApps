@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
@@ -55,10 +56,18 @@ class UserFragment : Fragment() {
         binding.toolbar.setOnMenuItemClickListener {
             when(it.itemId){
                 R.id.userLogOut -> {
-                    auth.signOut()
-                    startActivity(Intent(activity, LoginActivity::class.java))
-                    requireActivity().finish()
-                    true
+
+                    MaterialAlertDialogBuilder(requireContext()).apply {
+                        setTitle("Are you sure?")
+                        setMessage("Want to log out this application ?")
+                        setPositiveButton("Yes") { _, _ ->  auth.signOut()
+                            startActivity(Intent(activity, LoginActivity::class.java))
+                            requireActivity().finish()
+                             }
+                        setNegativeButton("No", null)
+                        show()
+                    }
+                   true
 
                 }
                 R.id.userKalkulator ->{
