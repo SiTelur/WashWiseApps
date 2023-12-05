@@ -1,10 +1,17 @@
 package com.olivia.laundry.fragment
 
+import android.app.Activity
+import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.LocationManager
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
@@ -13,7 +20,6 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.olivia.laundry.KalkulatorActivity
 import com.olivia.laundry.LoginActivity
-import com.olivia.laundry.MainActivity
 import com.olivia.laundry.R
 import com.olivia.laundry.databinding.FragmentUserBinding
 import com.olivia.laundry.dialoguser.ChangeEmailFragment
@@ -51,7 +57,8 @@ class UserFragment : Fragment() {
         auth = Firebase.auth
         val user = auth.currentUser
         val db = Firebase.firestore
-
+        activateGps(activity)
+        verifyStoragePermissions(activity)
         binding.textView44.text = auth.currentUser?.displayName
         binding.toolbar.setOnMenuItemClickListener {
             when(it.itemId){
@@ -128,6 +135,53 @@ class UserFragment : Fragment() {
             args.putString(ARG_PARAM2, param2)
             fragment.arguments = args
             return fragment
+        }
+    }
+    private fun activateGps(activity: Activity?) {
+
+        // Cek apakah GPS sudah aktif
+        val locationManager = activity?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+
+        if (!isGpsEnabled) {
+
+            // GPS belum aktif, tampilkan dialog konfirmasi untuk mengaktifkannya
+            val builder = AlertDialog.Builder(activity)
+            builder.setMessage("Aktifkan GPS untuk menggunakan fitur lokasi?")
+                .setPositiveButton("Ya") { dialog, id ->
+                    // User menyetujui untuk mengaktifkan GPS
+                    val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                    activity.startActivity(intent)
+                }
+                .setNegativeButton("Tidak") { dialog, id ->
+                    // User membatalkan permintaan aktivasi GPS
+                    dialog.cancel()
+                }
+            val alert = builder.create()
+            alert.show()
+
+        }
+
+    }
+
+    private val requestGPS = 1
+    private val permissionGPS = arrayOf(
+        android.Manifest.permission.ACCESS_COARSE_LOCATION,
+        android.Manifest.permission.ACCESS_FINE_LOCATION
+    )
+
+    private fun verifyStoragePermissions(activity: Activity?) {
+        // Check if we have write permission
+        val permission = ActivityCompat.checkSelfPermission(
+            requireActivity(),
+            android.Manifest.permission.ACCESS_FINE_LOCATION
+        )
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                permissionGPS, requestGPS
+            )
         }
     }
 }
