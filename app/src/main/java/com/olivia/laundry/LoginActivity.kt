@@ -84,7 +84,6 @@ class LoginActivity : AppCompatActivity() {
 
         binding.txtRegister.setOnClickListener {
             startActivity(Intent(this,RegisterActivity::class.java))
-            finish()
         }
 
         binding.textView43.setOnClickListener {

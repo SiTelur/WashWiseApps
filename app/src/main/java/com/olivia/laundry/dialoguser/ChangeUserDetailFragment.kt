@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -72,6 +73,7 @@ class ChangeUserDetailFragment : DialogFragment() {
                         Log.d("ChangeUserDetailFragment", "UserProfile Updated")
                     }
                     db.collection("User").document(user.uid).update("phoneNumber",binding.txtNamaEditProfil2.text.toString(),"name",binding.txtNamaEditProfil.text.toString())
+                    Toast.makeText(activity, "Nama Anda Berhasil Diganti, Mohon Restart Aplikasi", Toast.LENGTH_SHORT).show()
                     dismiss()
                    true
 
