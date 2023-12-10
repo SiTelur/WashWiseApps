@@ -1,8 +1,13 @@
 package com.olivia.laundry.dialoguser
 
 import android.app.Activity
+import android.app.AlertDialog
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.LocationManager
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -55,7 +60,6 @@ class TambahAlamatFragment : DialogFragment() {
     ): View {
         binding = FragmentTambahAlamatBinding.inflate(inflater)
         binding.editTextText.setText(mParam1.toString())
-        verifyStoragePermissions(activity)
         val db = Firebase.firestore
         initializeMaps()
         auth = Firebase.auth
@@ -93,9 +97,9 @@ class TambahAlamatFragment : DialogFragment() {
 
 
         binding.toolbar.setOnMenuItemClickListener {
-            if (binding.editTextText.text.equals("null")) {
-                Toast.makeText(context, "Anda Belum Mengisi Detail Alamat", Toast.LENGTH_SHORT).show()
-                return@setOnMenuItemClickListener true
+            if (binding.editTextText.text.equals("null") || binding.editTextText.text.isEmpty()) {
+                Toast.makeText(requireActivity(), "Anda Belum Mengisi Detail Alamat", Toast.LENGTH_SHORT).show()
+                return@setOnMenuItemClickListener false
             }
 
             when (it.itemId) {
@@ -174,25 +178,5 @@ class TambahAlamatFragment : DialogFragment() {
             MapView.getTileSystem().maxLatitude,
             MapView.getTileSystem().minLatitude, 0
         )
-    }
-
-    private val REQUEST_GPS = 1
-    private val PERMISSIONS_STORAGE = arrayOf(
-        android.Manifest.permission.ACCESS_COARSE_LOCATION,
-        android.Manifest.permission.ACCESS_FINE_LOCATION
-    )
-    private fun verifyStoragePermissions(activity: Activity?) {
-        // Check if we have write permission
-        val permission = ActivityCompat.checkSelfPermission(
-            requireActivity(),
-            android.Manifest.permission.ACCESS_FINE_LOCATION
-        )
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            // We don't have permission so prompt the user
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                PERMISSIONS_STORAGE, REQUEST_GPS
-            )
-        }
     }
 }

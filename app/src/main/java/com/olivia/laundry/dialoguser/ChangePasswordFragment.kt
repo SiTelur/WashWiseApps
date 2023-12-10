@@ -75,18 +75,20 @@ class ChangePasswordFragment : DialogFragment() {
                     .addOnSuccessListener {
                         Log.d("ChangePass", "Berhasil Mengganti Password")
                         Toast.makeText(activity, "Anda Berhasil Mengubah Password Anda", Toast.LENGTH_SHORT).show()
+                        dismiss()
                     }
                     .addOnFailureListener {
                         Log.e("ChangePass", "onCreateView: Gagal",it)
+                        Toast.makeText(activity, "Anda Gagal Mengubah Password Anda", Toast.LENGTH_SHORT).show()
+
                     }
-
-                dismiss()
-
             }.addOnFailureListener{
                     Toast.makeText(activity, "Password Lama Anda Salah", Toast.LENGTH_SHORT).show()
                     
             }
-            Toast.makeText(activity, "Password Anda Salah", Toast.LENGTH_SHORT).show()
+                .addOnCanceledListener {
+                    Toast.makeText(activity, "Password Lama Anda Salah", Toast.LENGTH_SHORT).show()
+                }
         }
 
         binding.toolbar2.setNavigationOnClickListener {

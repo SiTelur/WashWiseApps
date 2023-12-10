@@ -89,8 +89,7 @@ class RegisterActivity : AppCompatActivity() {
                     user!!.updateProfile(profileUpdate).addOnSuccessListener {
                         Log.d(TAG, "User profile updated.")
                     }
-
-                    startActivity(Intent(this,MainActivity::class.java))
+                    auth.signOut()
                     finish()
                 }
                 .addOnFailureListener {
@@ -98,6 +97,10 @@ class RegisterActivity : AppCompatActivity() {
                     window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                     Log.w(this.toString(), "onCreate: Gagal", it)
                 }
+        }
+
+        binding.txtRegister.setOnClickListener {
+            finish()
         }
     }
 }
